@@ -6,7 +6,6 @@ module.exports = {
   "file-input.js":  require('./file-input.js'),
   "menu.js":  require('./menu.js'),
   "message-confirm.js":  require('./message-confirm.js'),
-  "tabs.js":  require('./tabs.js'),
   "sbot.js": require('./sbot.js'),
   "about.js":  require('./about.js'),
   "avatar-edit.js":  require('./avatar-edit.js'),
