@@ -1,7 +1,7 @@
 {
   "name": "minbase",
   "description": "minimal as possible secure scuttlebutt client",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "homepage": "https://github.com/evbogue/minbase",
   "repository": {
     "type": "git",
