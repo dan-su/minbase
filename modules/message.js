@@ -29,7 +29,7 @@ exports.create = function (api) {
       )
       //h('div.message_content', el)
     )
-    div.setAttribute('tabindex', '0')
+    //div.setAttribute('tabindex', '0')
     return div
   }
 
@@ -38,7 +38,7 @@ exports.create = function (api) {
     if(el) return mini(msg, el)
 
     var el = api.message_content(msg)
-    // if(!el) return mini(msg, message_content_mini_fallback(msg))
+     if(!el) return mini(msg, message_content_mini_fallback(msg))
     if(!el) return
 
     var links = []
@@ -70,8 +70,8 @@ exports.create = function (api) {
           h('a', {href: '#' + msg.key}, 'Reply')
         )
       ),
-      backlinks,
-      {onkeydown: function (ev) {
+      backlinks//,
+      /*{onkeydown: function (ev) {
         //on enter, hit first meta.
         if(ev.keyCode == 13) {
 
@@ -81,11 +81,11 @@ exports.create = function (api) {
 
           msg.querySelector('.enter').click()
         }
-      }}
+      }}*/
     )
 
     // ); hyperscript does not seem to set attributes correctly.
-    msg.setAttribute('tabindex', '0')
+    //msg.setAttribute('tabindex', '0')
 
     return msg
   }
