@@ -70,8 +70,13 @@ function fallback(reader) {
 
 exports.create = function (api) {
   return function (path) {
-    if(path[0] === '?') {
-      var queryStr = path.substr(1).trim()
+    if(path[0] === '?' || '#') {
+      var queryStr = path
+      if (queryStr[0] === '?') {
+        queryStr = queryStr.substring(1).trim()
+      }
+      console.log(path)
+      console.log(queryStr)
       var query = queryStr.split(whitespace)
       var _matches = searchFilter(query)
 
