@@ -1,7 +1,10 @@
 var h = require('hyperscript')
+var ref = require('ssb-ref')
 
 function idLink (id) {
-  return h('a', {href:'#'+id}, id.substring(0, 10)+'...')
+  if (ref.isLink(id)) {
+    return h('a', {href:'#'+id}, id.substring(0, 10)+'...')
+  }
 }
 
 exports.needs = {
