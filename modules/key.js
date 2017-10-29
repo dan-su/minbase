@@ -21,9 +21,9 @@ exports.create = function (api) {
               h('div.column.scroller__content',
                 h('div.message',
                   h('h1', 'Your Key'),
-                  h('p', {innerHTML: 'Your secret key is: <pre><code>' + localStorage['browser/.ssb/secret'] + '</code></pre>'},
+                  h('p', {innerHTML: 'Your secret key is: <pre><code>' + localStorage['/.ssb/secret'] + '</code></pre>'},
                     h('button', {onclick: function (e){
-                      localStorage['browser/.ssb/secret'] = ''
+                      localStorage['/.ssb/secret'] = ''
                       alert('Your public/private key has been deleted')
                       e.preventDefault()
                       location.hash = ""
@@ -46,7 +46,7 @@ exports.create = function (api) {
                     importRemote,
                     h('button', {onclick: function (e){
                       if(importKey.value) {
-                        localStorage['browser/.ssb/secret'] = importKey.value.replace(/\s+/g, ' ')
+                        localStorage['/.ssb/secret'] = importKey.value.replace(/\s+/g, ' ')
                         e.preventDefault()
                         alert('Your key has been updated')
                       }
