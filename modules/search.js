@@ -97,9 +97,9 @@ exports.create = function (api) {
         total++
         var m = _matches(data)
         if(m) matches++
-        if(usingLinearSearch) {
-          header.textContent = 'searched:'+total+', found:'+matches
-        }
+        //if(usingLinearSearch) {
+          //header.textContent = 'searched:'+total+', found:'+matches
+        //}
         return m
       }
 

@@ -1,3 +1,17 @@
+input.search {
+  margin-right: 5px;
+  height: 14px;
+  width: 96px;
+  background: #f5f5f5;
+}
+
+form.search {
+  float: right;
+}
+
+button.btn-search {
+  margin-right: 1em;
+}
 
 .navbar {
   background: #fff;
