@@ -77,5 +77,9 @@
   "ws": {},
   "fulltext": {
     "search": "source"
+  },
+  "ooo": {
+    "stream": "duplex",
+    "get": "async"
   }
 }

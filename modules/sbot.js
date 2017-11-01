@@ -123,12 +123,9 @@ module.exports = {
         return sbot.fulltext.search(opts)
       }),
       sbot_get: rec.async(function (key, cb) {
-        if('function' !== typeof cb)
-          throw new Error('cb must be function')
-        if(CACHE[key]) cb(null, CACHE[key])
-        else sbot.get(key, function (err, value) {
-          if(err) return cb(err)
-          cb(null, CACHE[key] = value)
+        sbot.ooo.get(key, function (err, value) {
+          value = value.value
+          cb(null, value)
         })
       }),
       sbot_gossip_peers: rec.async(function (cb) {
@@ -171,7 +168,7 @@ module.exports = {
       }),
       sbot_signs_get: rec.async(function (opts, cb) {
         return sbot.signs.get(opts, cb)
-      }),
+      })
     }
   }
 }
