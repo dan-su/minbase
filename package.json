@@ -1,7 +1,7 @@
 {
   "name": "minbase",
-  "description": "minimal as possible secure scuttlebutt client",
-  "version": "2.3.0",
+  "description": "minimal as possible secure-scuttlebutt lite client",
+  "version": "2.4.0",
   "homepage": "https://github.com/evbogue/minbase",
   "repository": {
     "type": "git",
@@ -41,6 +41,7 @@
     "pull-stringify": "^2.0.0",
     "scuttlebot": "^10.4.10",
     "simple-mime": "^0.1.0",
+    "sodium-native": "^2.0.0",
     "split-buffer": "^1.0.0",
     "ssb-avatar": "^0.2.0",
     "ssb-blobs": "^1.1.4",
@@ -51,7 +52,7 @@
     "ssb-friends": "^2.3.2",
     "ssb-fulltext": "^1.0.1",
     "ssb-git": "^0.5.0",
-    "ssb-keys": "^7.0.12",
+    "ssb-keys": "7.0.12",
     "ssb-links": "^3.0.0",
     "ssb-markdown": "^3.3.0",
     "ssb-mentions": "^0.4.1",
