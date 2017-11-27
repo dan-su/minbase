@@ -2,6 +2,17 @@
 var URL = require('url')
 
 module.exports = function () {
+  if ((localStorage.remote === undefined) || (localStorage.remote === '')) {
+    http.get('http://localhost:3377', function (res) {
+      res.on('data', (ws) => {
+        localStorage.remote = ws
+      })
+    }).on('error', (e) => {
+      console.log(e.message);
+      localStorage.remote = config.ws.remote
+    })
+  }
+
   var remote = 'undefined' === typeof localStorage
     ? null //'ws://localhost:8989~shs:' + require('./keys')
     : localStorage.remote
