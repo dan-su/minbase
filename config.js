@@ -1,15 +1,16 @@
+var http = require('http')
 
 var URL = require('url')
 
 module.exports = function () {
+
   if ((localStorage.remote === undefined) || (localStorage.remote === '')) {
     http.get('http://localhost:3377', function (res) {
       res.on('data', (ws) => {
         localStorage.remote = ws
       })
     }).on('error', (e) => {
-      console.log(e.message);
-      localStorage.remote = config.ws.remote
+      console.log(e.message)
     })
   }
 

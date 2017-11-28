@@ -59,7 +59,7 @@
     "ssb-party": "^0.5.1",
     "ssb-query": "^1.0.0",
     "ssb-ref": "^2.7.1",
-    "ssb-ws": "^1.0.3",
+    "ssb-ws": "git@github.com:ssbc/ssb-ws.git#serve-ws",
     "stream-to-pull-stream": "^1.7.2",
     "suggest-box": "^2.2.3",
     "text-node-searcher": "^1.1.1",
