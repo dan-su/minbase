@@ -47,13 +47,6 @@
     "publish": "async",
     "unbox": "sync"
   },
-  "plugins": {
-    "install": "source",
-    "uninstall": "source",
-    "enable": "async",
-    "disable": "async"
-  },
-  "notifier": {},
   "blobs": {
     "get": "source",
     "add": "sink",

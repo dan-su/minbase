@@ -3,6 +3,8 @@ var u = require('../util')
 var pull = require('pull-stream')
 var Scroller = require('pull-scroll')
 
+var config = require('../config')().config
+
 exports.gives = {
   screen_view: true
 }
@@ -11,62 +13,41 @@ exports.create = function (api) {
   return {
     screen_view: function (path, sbot) {
       if(path === 'Key') {
-        if(process.title === 'browser') {
-          var importKey = h('textarea.import', {placeholder: 'import an existing public/private key', name: 'textarea'})
-          var importRemote = h('input.import', {placeholder: 'import an existing remote', name: 'textarea'})
-          var content = h('div.column.scroller__content')
-          var div = h('div.column.scroller',
-            {style: {'overflow':'auto'}},
-            h('div.scroller__wrapper',
-              h('div.column.scroller__content',
-                h('div.message',
-                  h('h1', 'Your Key'),
-                  h('p', {innerHTML: 'Your secret key is: <pre><code>' + localStorage['/.ssb/secret'] + '</code></pre>'},
-                    h('button', {onclick: function (e){
-                      localStorage['/.ssb/secret'] = ''
-                      alert('Your public/private key has been deleted')
+        var importKey = h('textarea.import', {placeholder: 'Import a new public/private key', name: 'textarea', style: 'width: 97%; height: 100px;'})
+        var content = h('div.column.scroller__content')
+        var div = h('div.column.scroller',
+          {style: {'overflow':'auto'}},
+          h('div.scroller__wrapper',
+            h('div.column.scroller__content',
+              h('div.message',
+                h('h1', 'Your Key'),
+                h('p', {innerHTML: 'Your public/private key is: <pre><code>' + localStorage[config.caps.shs + '/secret'] + '</code></pre>'},
+                  h('button.btn.btn-danger', {onclick: function (e){
+                    localStorage[config.caps.shs +'/secret'] = ''
+                    alert('Your public/private key has been deleted')
+                    e.preventDefault()
+                    location.hash = ""
+                    location.reload()
+                  }}, 'Delete Key')
+                ),
+                h('hr'),
+                h('form',
+                  importKey,
+                  h('button.btn.btn-success', {onclick: function (e){
+                    if(importKey.value) {
+                      localStorage[config.caps.shs + '/secret'] = importKey.value.replace(/\s+/g, ' ')
                       e.preventDefault()
-                      location.hash = ""
-                      location.reload()
-                    }}, 'Delete Key')
-                  ),
-                  h('hr'),
-                  h('p', {innerHTML: 'Your remote pub is: <pre>' + localStorage.remote + '</pre>'},
-                    h('button', {onclick: function (e){
-                      localStorage.remote = ''
-                      alert('Your remote pub has been deleted')
-                      e.preventDefault()
-                      location.hash = ""
-                      location.reload()
-                    }}, 'Delete Pub')
-                  ),
-                  h('hr'),
-                  h('form.column',
-                    importKey,
-                    importRemote,
-                    h('button', {onclick: function (e){
-                      if(importKey.value) {
-                        localStorage['/.ssb/secret'] = importKey.value.replace(/\s+/g, ' ')
-                        e.preventDefault()
-                        alert('Your key has been updated')
-                      }
-                      if(importRemote.value) {
-                        localStorage.remote = importRemote.value
-                        e.preventDefault()
-                        alert('Your remote pub has been updated')
-                      }
-                      location.hash = ""
-                      location.reload()
-                    }}, 'Import')
-                  )
+                      alert('Your public/private key has been updated')
+                    }
+                    location.hash = ""
+                    location.reload()
+                  }}, 'Import key'),
                 )
               )
             )
           )
-          return div
-        } else { 
-          return h('p', 'Your key is saved at .ssb/secret')
-        }
+        )
+        return div
       }
     }
   }

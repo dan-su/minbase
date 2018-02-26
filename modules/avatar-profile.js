@@ -1,77 +1,58 @@
 var h = require('hyperscript')
 var pull = require('pull-stream')
+var self_id = require('../keys')
 
 exports.needs = {
-  avatar_image_link: 'first',
+  markdown: 'first',
+  avatar_image: 'first',
+  avatar_name: 'first',
   avatar_action: 'map',
-  avatar_edit: 'first',
-  follows: 'first',
-  followers: 'first'
+  sbot_query: 'first'
 }
 
 exports.gives = 'avatar_profile'
 
-function streamToList(stream, el) {
-  pull(
-    stream,
-    pull.drain(function (item) {
-      if(item) el.appendChild(item)
-    })
-  )
-  return el
-}
-
 exports.create = function (api) {
 
-  function image_link (id) {
-    return api.avatar_image_link(id, 'thumbnail')
-  }
-
   return function (id) {
+    var loco = h('p', '')
+    var description = h('p', '')
+ 
+    var edit
 
-    var follows_el = h('div.profile__follows.wrap')
-    var friends_el = h('div.profile__friends.wrap')
-    var followers_el = h('div.profile__followers.wrap')
-    var a, b
+    console.log('id is: ' + id)
+    console.log('self_id is: ' + self_id.id)
 
-    pull(api.follows(id), pull.unique(), pull.collect(function (err, ary) {
-      a = ary || []; next()
-    }))
-    pull(api.followers(id), pull.unique(), pull.collect(function (err, ary) {
-      b = ary || {}; next()
-    }))
+    if (id == self_id.id) {
+      edit = h('p', h('a', {href: '#Edit'}, h('button.btn.btn-primary', 'Edit profile')))
+    } else { edit = api.avatar_action(id)}
 
-    function next () {
-      if(!(a && b)) return
-      var _c = [], _a = [], _b = []
-
-      a.forEach(function (id) {
-        if(!~b.indexOf(id)) _a.push(id)
-        else               _c.push(id)
-      })
-      b.forEach(function (id) {
-        if(!~_c.indexOf(id)) _b.push(id)
-      })
-      function add (ary, el) {
-        ary.forEach(function (id) { el.appendChild(image_link(id)) })
+    pull(api.sbot_query({query: [{$filter: { value: { author: id, content: {type: 'loc'}}}}], limit: 1, reverse: true}),
+    pull.drain(function (data){
+      if(data.value.content.loc) { 
+        loco.appendChild(h('span', h('strong', 'Location: '), data.value.content.loc))
       }
+    }))
 
-      add(_a, follows_el)
-      add(_c, friends_el)
-      add(_b, followers_el)
-    }
+    pull(api.sbot_query({query: [{$filter: { value: { author: id, content: {type: 'description'}}}}], limit: 1, reverse: true}),
+    pull.drain(function (data){
+      if(data.value.content.description) {
+        description.appendChild(h('span', h('strong', 'Description: '), api.markdown(data.value.content.description)))
+      }
+    }))
 
-    return h('div.column.profile',
-      api.avatar_edit(id),
-      api.avatar_action(id),
-      h('div.profile__relationships.column',
-        h('strong', 'follows'),
-        follows_el,
-        h('strong', 'friends'),
-        friends_el,
-        h('strong', 'followers'),
-        followers_el
-      )
+    return h('div.column',
+      h('div.message',
+        api.avatar_image(id, 'profile'), 
+        api.avatar_name(id),
+        loco,
+        description,
+        h('pre', h('code', id)),
+        edit
+      )/*,
+      h('div.message',
+        api.avatar_action(id)
+      )*/
     )
   }
 }

@@ -6,4 +6,3 @@ fs.writeFileSync(
   JSON.stringify(fs.readFileSync(path.join(__dirname, '..', 'style.css'), 'utf8'))
 )
 
-

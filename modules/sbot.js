@@ -3,31 +3,13 @@ var ssbKeys = require('ssb-keys')
 var ref = require('ssb-ref')
 var Reconnect = require('pull-reconnect')
 var path = require('path')
-var config = require('ssb-config/inject')(process.env.ssb_appname)
-config.keys = ssbKeys.loadOrCreateSync(path.join(config.path, 'secret'))
 
-function Hash (onHash) {
-  var buffers = []
-  return pull.through(function (data) {
-    buffers.push('string' === typeof data
-      ? new Buffer(data, 'utf8')
-      : data
-    )
-  }, function (err) {
-    if(err && !onHash) throw err
-    var b = buffers.length > 1 ? Buffer.concat(buffers) : buffers[0]
-    var h = '&'+ssbKeys.hash(b)
-    onHash && onHash(err, h)
-  })
-}
+var config = require('../config')().config
 
 var createClient = require('ssb-client')
 
-var createConfig = require('ssb-config/inject')
-
 var createFeed   = require('ssb-feed')
 var keys = require('../keys')
-var ssbKeys = require('ssb-keys')
 
 var cache = CACHE = {}
 
@@ -40,23 +22,15 @@ module.exports = {
     sbot_links: true,
     sbot_links2: true,
     sbot_query: true,
-    sbot_fulltext_search: true,
     sbot_get: true,
     sbot_log: true,
     sbot_user_feed: true,
-    sbot_gossip_peers: true,
-    sbot_gossip_connect: true,
-    sbot_progress: true,
-    sbot_publish: true,
-    sbot_whoami: true,
-    sbot_stream: true,
-    sbot_friends_get: true,
-    sbot_signs_get: true
+    sbot_publish: true
   },
 
   create: function (api) {
 
-    var opts = createConfig()
+    var opts = config
     var sbot = null
     var connection_status = []
 
@@ -119,9 +93,6 @@ module.exports = {
       sbot_user_feed: rec.source(function (opts) {
         return sbot.createUserStream(opts)
       }),
-      sbot_fulltext_search: rec.source(function (opts) {
-        return sbot.fulltext.search(opts)
-      }),
       sbot_get: rec.async(function (key, cb) {
         if('function' !== typeof cb)
           throw new Error('cb must be function')
@@ -130,16 +101,6 @@ module.exports = {
           if(err) return cb(err)
           cb(null, CACHE[key] = value)
         })
-      }),
-      sbot_gossip_peers: rec.async(function (cb) {
-        sbot.gossip.peers(cb)
-      }),
-      //liteclient won't have permissions for this
-      sbot_gossip_connect: rec.async(function (opts, cb) {
-        sbot.gossip.connect(opts, cb)
-      }),
-      sbot_progress: rec.source(function () {
-        return sbot.replicate.changes()
       }),
       sbot_publish: rec.async(function (content, cb) {
         if(content.recps)
@@ -159,19 +120,7 @@ module.exports = {
           else if(!cb) console.log(msg)
           cb && cb(err, msg)
         })
-      }),
-      sbot_whoami: rec.async(function (cb) {
-        sbot.whoami(cb)
-      }),
-      sbot_stream: rec.source(function (opts) {
-        return sbot.stream(opts)
-      }),
-      sbot_friends_get: rec.async(function (opts, cb) {
-        return sbot.friends.get(opts, cb)
-      }),
-      sbot_signs_get: rec.async(function (opts, cb) {
-        return sbot.signs.get(opts, cb)
-      }),
+      })
     }
   }
 }

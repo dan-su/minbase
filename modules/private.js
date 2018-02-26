@@ -4,6 +4,7 @@ var u = require('../util')
 var pull = require('pull-stream')
 var Scroller = require('pull-scroll')
 var ref = require('ssb-ref')
+var emojiUrl = require('./helpers').emojiurl
 
 function map(ary, iter) {
   if(Array.isArray(ary)) return ary.map(iter)
@@ -14,9 +15,7 @@ exports.needs = {
   message_compose: 'first',
   message_unbox: 'first',
   sbot_log: 'first',
-  sbot_whoami: 'first',
-  avatar_image_link: 'first',
-  emoji_url: 'first'
+  avatar_image_link: 'first'
 }
 
 exports.gives = {
@@ -41,7 +40,7 @@ exports.create = function (api) {
 
   return {
     screen_view: function (path) {
-      if(path === 'Direct') {
+      if(path === 'Private') {
         var id = require('../keys').id
         var compose = api.message_compose(
           {type: 'post', recps: [], private: true}, 
@@ -91,7 +90,7 @@ exports.create = function (api) {
 
     message_content_mini: function (msg, sbot)  {
       if (typeof msg.value.content === 'string') {
-        var icon = api.emoji_url('lock')
+        var icon = emojiUrl('lock')
         return icon
           ? h('img', {className: 'emoji', src: icon})
           : 'PRIVATE'

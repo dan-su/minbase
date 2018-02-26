@@ -1,41 +1,26 @@
 var http = require('http')
 
-var URL = require('url')
-
 module.exports = function () {
-
-  if ((localStorage.remote === undefined) || (localStorage.remote === '')) {
-    http.get('http://localhost:3377', function (res) {
-      res.on('data', (ws) => {
-        localStorage.remote = ws
-      })
-    }).on('error', (e) => {
-      console.log(e.message)
-    })
-  }
-
-  var remote = 'undefined' === typeof localStorage
-    ? null //'ws://localhost:8989~shs:' + require('./keys')
-    : localStorage.remote
-
-
-  //TODO: use _several_ remotes, so if one goes down,
-  //      you can still communicate via another...
-  //      also, if a blob does not load, use another pub...
-
-  //if we are the light client, get our blobs from the same domain.
-  var blobsUrl
-  if(remote) {
-    var r = URL.parse(remote.split('~')[0])
-    //this will work for ws and wss.
-    r.protocol = r.protocol.replace('ws', 'http')
-    r.pathname = '/blobs/get'
-    blobsUrl = URL.format(r)
-  }
+  if (localStorage.host) 
+    var host = localStorage.host
   else
-    blobsUrl = 'http://localhost:8989/blobs/get'
+    var host = window.location.origin
+
+  console.log(host)
+
+  http.get(host + '/get-config', function (res) {
+    res.on('data', function (data, remote) {
+      config = data
+      localStorage[host] = config
+    })
+  })
+
+  var config = JSON.parse(localStorage[host])
+  var remote = config.address
+  var blobsUrl = host + '/blobs/get'
 
   return {
+    config: config,
     remote: remote,
     blobsUrl: blobsUrl
   }

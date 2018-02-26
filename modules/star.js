@@ -1,12 +1,12 @@
 var h = require('hyperscript')
 var u = require('../util')
 var pull = require('pull-stream')
+var emojiUrl = require('./helpers').emojiurl
 
 exports.needs = {
   message_confirm: 'first',
   message_link: 'first',
-  sbot_links: 'first',
-  emoji_url: 'first'
+  sbot_links: 'first'
 }
 
 exports.gives = {
@@ -21,8 +21,8 @@ exports.create = function (api) {
 
   exports.message_content =
   exports.message_content_mini = function (msg, sbot) {
-    var star = api.emoji_url('star')
-    var stars = api.emoji_url('stars')
+    var star = emojiUrl('star')
+    var stars = emojiUrl('stars')
     if(msg.value.content.type !== 'vote') return
     var link = msg.value.content.vote.link
     return [
@@ -34,7 +34,7 @@ exports.create = function (api) {
   }
 
   exports.message_meta = function (msg, sbot) {
-    var star = api.emoji_url('star')
+    var star = emojiUrl('star')
     var digs = h('a')
 
     var votes = []
@@ -55,7 +55,7 @@ exports.create = function (api) {
   }
 
   exports.message_action = function (msg, sbot) {
-    var star = api.emoji_url('star')
+    var star = emojiUrl('star')
     if(msg.value.content.type !== 'vote')
       return h('a.dig', {href: '#', onclick: function (e) {
         e.preventDefault()

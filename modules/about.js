@@ -1,38 +1,39 @@
 var h = require('hyperscript')
-var ref = require('ssb-ref')
-
-function idLink (id) {
-  if (ref.isLink(id)) {
-    return h('a', {href:'#'+id}, id.substring(0, 10)+'...')
-  }
-}
+var blobUrl = require('./helpers').bloburl
 
 exports.needs = {
-  blob_url: 'first'
+  avatar_name: 'first',
+  avatar_link: 'first',
+  markdown: 'first'
 }
 
-exports.gives = 'message_content'
+exports.gives = { 
+  message_content: true,
+  message_content_mini: true
+}
 
 exports.create = function (api) {
-  return function (msg) {
-    if(msg.value.content.type !== 'about') return
+  var exports = {}
+ 
+  exports.message_content =
 
-    if(!msg.value.content.image && !msg.value.content.name)
-      return
-
+  exports.message_content_mini = function (msg) {
     var about = msg.value.content
     var id = msg.value.content.about
-    return h('p', 
-      about.about === msg.value.author
-        ? h('span', 'self-identifies ')
-        : h('span', 'identifies ', idLink(id)),
-      ' as ',
-      h('a', {href:"#"+about.about},
-        about.name || null,
-        about.image
-        ? h('img.avatar--thumbnail', {src: api.blob_url(about.image)})
-        : null
-      )
-    )
+    if (msg.value.content.type == 'description') {
+      return h('span', api.markdown('**Description:** ' + about.description))
+    }
+    if (msg.value.content.type == 'loc') {
+      return h('span', h('strong', 'Location: '), about.loc)
+    } 
+    if (msg.value.content.type == 'about') {
+      if (msg.value.content.name) {
+        return h('span', 'identifies as ', about.name)
+      }
+      if (msg.value.content.image) {
+        return h('span', 'identifies as ', h('img.avatar--thumbnail', {src: blobUrl(about.image)}))
+      }
+    } else { return }
   }
+  return exports
 }

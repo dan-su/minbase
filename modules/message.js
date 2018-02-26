@@ -1,6 +1,6 @@
 var h = require('hyperscript')
-var u = require('../util')
 var pull = require('pull-stream')
+var timestamp = require('./helpers').timestamp
 
 exports.needs = {
   message_content: 'first',
@@ -8,7 +8,6 @@ exports.needs = {
   avatar: 'first',
   avatar_name: 'first',
   avatar_link: 'first',
-  message_meta: 'map',
   message_action: 'map',
   message_link: 'first'
 }
@@ -23,9 +22,10 @@ exports.create = function (api) {
 
   function mini(msg, el) {
     var div = h('div.message.message--mini',
-      h('div.title.row',
-        h('div.avatar', api.avatar_link(msg.value.author, api.avatar_name(msg.value.author), ''), ' ', el),
-        h('div.message_meta.row', api.message_meta(msg))
+      h('div.row',
+        h('div.avatar', api.avatar_link(msg.value.author, api.avatar_name(msg.value.author), ''), 
+        h('span.message_content', el)),
+        h('div.message_meta', timestamp(msg)) 
       )
     )
     return div
@@ -36,8 +36,7 @@ exports.create = function (api) {
     if(el) return mini(msg, el)
 
     var el = api.message_content(msg)
-     if(!el) return mini(msg, message_content_mini_fallback(msg))
-    if(!el) return
+    if(!el) return mini(msg, message_content_mini_fallback(msg))
 
     var links = []
     for(var k in CACHE) {
@@ -60,17 +59,18 @@ exports.create = function (api) {
     var msg = h('div.message',
       h('div.title.row',
         h('div.avatar', api.avatar(msg.value.author, 'thumbnail')),
-        h('div.message_meta.row', api.message_meta(msg))
+        h('div.message_meta', timestamp(msg))
       ),
-      h('div.message_content', el),
-      h('div.message_actions',
-        h('div.actions', api.message_action(msg),
-          h('a', {href: '#' + msg.key}, 'Reply')
+      h('div.column',
+        h('div.message_content.row', el),
+        h('div.message_actions.row',
+          h('div.actions', api.message_action(msg),
+            h('a', {href: '#' + msg.key}, 'Reply')
+          )
         )
       ),
       backlinks
     )
-
     return msg
   }
 }

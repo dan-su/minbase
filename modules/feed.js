@@ -22,7 +22,7 @@ exports.create = function (api) {
       var div = h('div.column.scroller',
         {style: {'overflow':'auto'}},
         h('div.scroller__wrapper',
-          h('div', api.avatar_profile(id)),
+          h('div.scroller__content', api.avatar_profile(id)),
           content
         )
       )

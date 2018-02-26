@@ -1,5 +1,3 @@
-'use strict'
-
 var getAvatar = require('ssb-avatar')
 var h = require('hyperscript')
 var ref = require('ssb-ref')
@@ -8,9 +6,10 @@ var visualize = require('visualize-buffer')
 var pull = require('pull-stream')
 var self_id = require('../keys').id
 
+var blobUrl = require('./helpers').bloburl
+
 exports.needs = {
   sbot_query: 'first',
-  blob_url: 'first'
 }
 
 exports.gives = {
@@ -89,7 +88,7 @@ exports.create = function (api) {
         return img
       }
 
-      var img = ready && avatars[author] ? h('img', {src: api.blob_url(avatars[author].image)}) : gen(author)
+      var img = ready && avatars[author] ? h('img', {src: blobUrl(avatars[author].image)}) : gen(author)
 
       ;(classes || '').split('.').filter(Boolean).forEach(function (c) {
         img.classList.add(c)
@@ -97,7 +96,7 @@ exports.create = function (api) {
 
       if(!ready)
         waiting.push(function () {
-          if(avatars[author]) img.src = api.blob_url(avatars[author].image)
+          if(avatars[author]) img.src = blobUrl(avatars[author].image)
         })
 
       return img
