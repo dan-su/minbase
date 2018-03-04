@@ -5,8 +5,7 @@ var emojiUrl = require('./helpers').emojiurl
 var messageLink = require('./helpers').message_link
 
 exports.needs = {
-  message_confirm: 'first',
-  sbot_links: 'first'
+  message_confirm: 'first'
 }
 
 exports.gives = {

@@ -2,11 +2,11 @@ var h = require('hyperscript')
 var u = require('../util')
 var pull = require('pull-stream')
 var Scroller = require('pull-scroll')
+var log = require('./scuttlebot').log
 
 exports.needs = {
   message_render: 'first',
-  message_compose: 'first',
-  sbot_log: 'first',
+  message_compose: 'first'
 }
 
 exports.gives = {
@@ -30,12 +30,12 @@ exports.create = function (api) {
         )
 
         pull(
-          u.next(api.sbot_log, {old: false, limit: 100}),
+          u.next(log, {old: false, limit: 100}),
           Scroller(div, content, api.message_render, true, false)
         )
 
         pull(
-          u.next(api.sbot_log, {reverse: true, limit: 100, live: false}),
+          u.next(log, {reverse: true, limit: 100, live: false}),
           Scroller(div, content, api.message_render, false, false)
         )
 

@@ -3,10 +3,11 @@ var u = require('../util')
 var pull = require('pull-stream')
 var Scroller = require('pull-scroll')
 var TextNodeSearcher = require('text-node-searcher')
+var log = require('./scuttlebot').log
+
 
 exports.needs = {
-  message_render: 'first',
-  sbot_log: 'first'
+  message_render: 'first'
 }
 
 exports.gives = 'screen_view'
@@ -87,13 +88,13 @@ exports.create = function (api) {
       }
 
       pull(
-        api.sbot_log({old: false}),
+        log({old: false}),
         pull.filter(matchesQuery),
         Scroller(div, content, renderMsg, true, false)
       )
 
       pull(
-        u.next(api.sbot_log, {reverse: true, limit: 500, live: false}),
+        u.next(log, {reverse: true, limit: 500, live: false}),
         pull.filter(matchesQuery),
         Scroller(div, content, renderMsg, false, false)
       )

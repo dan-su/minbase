@@ -8,6 +8,9 @@ var Scroller = require('pull-scroll')
 var self_id = require('../keys').id
 var messageName = require('./helpers').message_name
 
+var get = require('./scuttlebot').get 
+var links = require('./scuttlebot').links
+
 function once (cont) {
   var ended = false
   return function (abort, cb) {
@@ -25,9 +28,7 @@ function once (cont) {
 exports.needs = {
   message_render: 'first',
   message_compose: 'first',
-  message_unbox: 'first',
-  sbot_get: 'first',
-  sbot_links: 'first'
+  message_unbox: 'first'
 }
 
 exports.gives = 'screen_view'
@@ -39,12 +40,12 @@ exports.create = function (api) {
     //in this case, it's inconvienent that panel only takes
     //a stream. maybe it would be better to accept an array?
 
-    api.sbot_get(root, function (err, value) {
+    get(root, function (err, value) {
       if (err) return cb(err)
       var msg = {key: root, value: value}
 
       pull(
-        api.sbot_links({rel: 'root', dest: root, values: true, keys: true}),
+        links({rel: 'root', dest: root, values: true, keys: true}),
         pull.collect(function (err, ary) {
           if(err) return cb(err)
           ary.unshift(msg)
@@ -77,7 +78,7 @@ exports.create = function (api) {
       })
 
       pull(
-        api.sbot_links({
+        links({
           rel: 'root', dest: id, keys: true, old: false
         }),
         pull.drain(function (msg) {

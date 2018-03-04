@@ -2,13 +2,11 @@ var pull = require('pull-stream')
 var many = require('pull-many')
 var mfr = require('map-filter-reduce')
 
+var links2 = require('./scuttlebot').links2
+var query = require('./scuttlebot').query
+
 function all(stream, cb) {
   pull(stream, pull.collect(cb))
-}
-
-exports.needs = {
-  sbot_links2: 'first',
-  sbot_query: 'first'
 }
 
 exports.gives = {
@@ -122,9 +120,9 @@ exports.create = function (api) {
     if(!err) {
       pull(
         many([
-          api.sbot_links2({query: [filter, map, reduce]}),
-          add_sigil(api.sbot_query({query: [filter2, map2, reduce]})),
-          add_sigil(api.sbot_query({query: queryNamedGitRepos}))
+          links2({query: [filter, map, reduce]}),
+          add_sigil(query({query: [filter2, map2, reduce]})),
+          add_sigil(query({query: queryNamedGitRepos}))
         ]),
         //reducing also ensures order by the lookup properties
         //in this case: [name, id]
@@ -139,9 +137,9 @@ exports.create = function (api) {
       )
 
       pull(many([
-        api.sbot_links2({query: [filter, map], old: false}),
-        add_sigil(api.sbot_query({query: [filter2, map2], old: false})),
-        add_sigil(api.sbot_query({query: queryNamedGitRepos, old: false}))
+        links2({query: [filter, map], old: false}),
+        add_sigil(query({query: [filter2, map2], old: false})),
+        add_sigil(query({query: queryNamedGitRepos, old: false}))
       ]),
       pull.drain(update))
     }

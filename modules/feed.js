@@ -3,9 +3,9 @@ var Scroller = require('pull-scroll')
 var h = require('hyperscript')
 var pull = require('pull-stream')
 var u = require('../util')
+var userstream = require('./scuttlebot').userstream
 
 exports.needs = {
-  sbot_user_feed: 'first',
   message_render: 'first',
   avatar_profile: 'first',
   signifier: 'first'
@@ -32,12 +32,12 @@ exports.create = function (api) {
       })
 
       pull(
-        api.sbot_user_feed({id: id, old: false, live: true}),
+        userstream({id: id, old: false, live: true}),
         Scroller(div, content, api.message_render, true, false)
       )
 
       pull(
-        u.next(api.sbot_user_feed, {
+        u.next(userstream, {
           id: id, reverse: true,
           limit: 50, live: false
         }, ['value', 'sequence']),

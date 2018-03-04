@@ -5,16 +5,17 @@ var pull = require('pull-stream')
 var Scroller = require('pull-scroll')
 var ref = require('ssb-ref')
 var emojiUrl = require('./helpers').emojiurl
+var log = require('./scuttlebot').log
 
 function map(ary, iter) {
   if(Array.isArray(ary)) return ary.map(iter)
 }
 
+
 exports.needs = {
   message_render: 'first',
   message_compose: 'first',
   message_unbox: 'first',
-  sbot_log: 'first',
   avatar_image_link: 'first'
 }
 
@@ -64,13 +65,13 @@ exports.create = function (api) {
         )
     
         pull(
-          api.sbot_log({old: false}),
+          log({old: false}),
           unbox(),
           Scroller(div, content, api.message_render, true, false)
         )
     
         pull(
-          u.next(api.sbot_log, {reverse: true, limit: 1000}),
+          u.next(log, {reverse: true, limit: 1000}),
           unbox(),
           Scroller(div, content, api.message_render, false, false, function (err) {
             if(err) throw err

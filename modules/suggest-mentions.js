@@ -5,7 +5,6 @@ function isImage (filename) {
 }
 
 exports.needs = {
-  sbot_links2: 'first',
   signified: 'first',
   builtin_tabs: 'map'
 }

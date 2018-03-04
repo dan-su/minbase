@@ -6,12 +6,12 @@ var Scroller = require('pull-scroll')
 var paramap = require('pull-paramap')
 var cont = require('cont')
 var ref = require('ssb-ref')
+var log = require('./scuttlebot').log
+var get = require('./scuttlebot').get
+var userstream = require('./scuttlebot').userstream
 
 exports.needs = {
   message_render: 'first',
-  sbot_log: 'first',
-  sbot_get: 'first',
-  sbot_user_feed: 'first',
   message_unbox: 'first'
 }
 
@@ -41,7 +41,7 @@ exports.create = function (api) {
       if (!id) return cb(null, false)
       if (typeof id === 'object' && typeof id.link === 'string') id = id.link
       if (!ref.isMsg(id)) return cb(null, false)
-      api.sbot_get(id, function (err, msg) {
+      get(id, function (err, msg) {
         if (err && err.name == 'NotFoundError') cb(null, false)
         else if (err) cb(err)
         else if (msg.content.type === 'issue' || msg.content.type === 'pull-request')
@@ -104,7 +104,7 @@ exports.create = function (api) {
   }
 
   function getFirstMessage(feedId, cb) {
-    api.sbot_user_feed({id: feedId, gte: 0, limit: 1})(null, cb)
+    userstream({id: feedId, gte: 0, limit: 1})(null, cb)
   }
 
   return {
@@ -135,7 +135,7 @@ exports.create = function (api) {
         )
 
         pull(
-          u.next(api.sbot_log, {old: false, limit: 100}),
+          u.next(log, {old: false, limit: 100}),
           //unbox(),
           notifications(ids),
           pull.filter(),
@@ -143,7 +143,7 @@ exports.create = function (api) {
         )
 
         pull(
-          u.next(api.sbot_log, {reverse: true, limit: 100, live: false}),
+          u.next(log, {reverse: true, limit: 100, live: false}),
           //unbox(),
           notifications(ids),
           pull.filter(),

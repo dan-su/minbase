@@ -9,13 +9,12 @@ var mergeRepo = require('ssb-git/merge')
 var self_id = require('../keys').id
 var messageLink = require('./helpers').message_link
 var markdown = require('./helpers').markdown
+var links = require('./scuttlebot').links
+var get = require('./scuttlebot').get
 
 exports.needs = {
   message_confirm: 'first',
   message_compose: 'first',
-  sbot_links: 'first',
-  sbot_links2: 'first',
-  sbot_get: 'first',
   avatar_name: 'first'
 }
 
@@ -35,7 +34,7 @@ exports.create = function (api) {
     var updates = new KVGraph('key')
     var _cb, _refs
     pull(
-      api.sbot_links({
+      links({
         reverse: true,
         // source: msg.value.author,
         dest: msg.key,
@@ -67,7 +66,7 @@ exports.create = function (api) {
 
   function getForks(id) {
     return pull(
-      api.sbot_links({
+      links({
         reverse: true,
         dest: id,
         rel: 'upstream'
@@ -91,7 +90,7 @@ exports.create = function (api) {
 
   function getIssueState(id, cb) {
     pull(
-      api.sbot_links({dest: id, rel: 'issues', values: true, reverse: true}),
+      links({dest: id, rel: 'issues', values: true, reverse: true}),
       pull.map(function (msg) {
         return msg.value.content.issues
       }),
@@ -219,7 +218,7 @@ exports.create = function (api) {
           onchange: function () {
             // list branches for selected repo
             var repoId = this.value
-            if(repoId) api.sbot_get(repoId, function (err, value) {
+            if(repoId) get(repoId, function (err, value) {
               if(err) console.error(err)
               var msg = value && {key: repoId, value: value}
               headBranchInput = headBranchInput.swap(branchMenu(msg, true))
@@ -332,7 +331,7 @@ exports.create = function (api) {
 
         // list issues and pull requests
         pull(
-          api.sbot_links({
+          links({
             reverse: true,
             dest: msg.key,
             rel: 'project',

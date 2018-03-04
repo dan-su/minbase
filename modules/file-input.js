@@ -1,11 +1,10 @@
-var u = require('../util')
 var h = require('hyperscript')
 var pull = require('pull-stream')
 var mime = require('simple-mime')('application/octect-stream')
 var split = require('split-buffer')
+var addblob = require('./scuttlebot').blobs_add
 
 module.exports = {
-  needs: {sbot_blobs_add: 'first'},
   gives: 'file_input',
   create: function (api) {
     return function FileInput(onAdded) {
@@ -18,7 +17,7 @@ module.exports = {
           reader.onload = function () {
             pull(
               pull.values(split(new Buffer(reader.result), 64*1024)),
-              api.sbot_blobs_add(function (err, blob) {
+              addblob(function (err, blob) {
                 if(err) return console.error(err)
                 onAdded({
                   link: blob,
