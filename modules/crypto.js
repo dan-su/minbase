@@ -1,6 +1,7 @@
 var ref = require('ssb-ref')
 var keys = require('../keys')
 var ssbKeys = require('ssb-keys')
+var publish = require('./scuttlebot').publish
 
 function unbox_value(msg) {
   var plaintext = ssbKeys.unbox(msg.content, keys)
@@ -19,7 +20,6 @@ function unbox_value(msg) {
 
 module.exports = {
 
-  needs: {sbot_publish: 'first'},
   gives: {
     message_unbox: true, message_box: true, publish: true
   },
@@ -47,7 +47,7 @@ module.exports = {
     exports.publish = function (content, cb) {
       if(content.recps)
         content = exports.message_box(content)
-      api.sbot_publish(content, function (err, msg) {
+      publish(content, function (err, msg) {
         if(err) throw err
         console.log('PUBLISHED', msg)
         if(cb) cb(err, msg)

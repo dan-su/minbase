@@ -5,12 +5,9 @@ var path = require('path')
 var visualize = require('visualize-buffer')
 var pull = require('pull-stream')
 var self_id = require('../keys').id
+var query = require('./scuttlebot').query
 
 var blobUrl = require('./helpers').bloburl
-
-exports.needs = {
-  sbot_query: 'first',
-}
 
 exports.gives = {
   connection_status: true, avatar_image: true
@@ -33,7 +30,7 @@ exports.create = function (api) {
     connection_status: function (err) {
       if (err) return
       pull(
-        api.sbot_query({
+        query({
           query: [{
             $filter: {
               timestamp: {$gt: last || 0 },

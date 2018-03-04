@@ -13,8 +13,6 @@ var keys = require('../keys')
 
 var cache = CACHE = {}
 
-//var sbot = null
-
 var rec = reconnect(function (isConn) {
   function notify (value) {
     isConn(value)

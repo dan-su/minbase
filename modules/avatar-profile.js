@@ -2,12 +2,12 @@ var h = require('hyperscript')
 var pull = require('pull-stream')
 var self_id = require('../keys')
 var markdown = require('./helpers').markdown
+var query = require('./scuttlebot').query
 
 exports.needs = {
   avatar_image: 'first',
   avatar_name: 'first',
-  avatar_action: 'map',
-  sbot_query: 'first'
+  avatar_action: 'map'
 }
 
 exports.gives = 'avatar_profile'
@@ -27,14 +27,14 @@ exports.create = function (api) {
       edit = h('p', h('a', {href: '#Edit'}, h('button.btn.btn-primary', 'Edit profile')))
     } else { edit = api.avatar_action(id)}
 
-    pull(api.sbot_query({query: [{$filter: { value: { author: id, content: {type: 'loc'}}}}], limit: 1, reverse: true}),
+    pull(query({query: [{$filter: { value: { author: id, content: {type: 'loc'}}}}], limit: 1, reverse: true}),
     pull.drain(function (data){
       if(data.value.content.loc) { 
         loco.appendChild(h('span', h('strong', 'Location: '), data.value.content.loc))
       }
     }))
 
-    pull(api.sbot_query({query: [{$filter: { value: { author: id, content: {type: 'description'}}}}], limit: 1, reverse: true}),
+    pull(query({query: [{$filter: { value: { author: id, content: {type: 'description'}}}}], limit: 1, reverse: true}),
     pull.drain(function (data){
       if(data.value.content.description) {
         description.appendChild(h('span', h('strong', 'Description: '), markdown(data.value.content.description)))

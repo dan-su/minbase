@@ -6,10 +6,10 @@ var hyperlightbox = require('hyperlightbox')
 var h = require('hyperscript')
 var pull = require('pull-stream')
 var id = require('../keys').id
+var addblob = require('./scuttlebot').blobs_add
 
 exports.needs = {
   message_confirm: 'first',
-  sbot_blobs_add: 'first',
   avatar_image: 'first'
 }
 
@@ -31,7 +31,7 @@ exports.create = function (api) {
             var _data = dataurl.parse(data)
             pull(
               pull.once(_data.data),
-              api.sbot_blobs_add(function (err, hash) {
+              addblob(function (err, hash) {
                 if(err) return alert(err.stack)
                 selected = {
                   link: hash,
