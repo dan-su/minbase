@@ -1,6 +1,6 @@
 var pull = require('pull-stream')
 
-var query = require('./scuttlebot').query
+var sbotQuery = require('./scuttlebot').query
 
 //this is a bit crude, and doesn't actually show unfollows yet.
 
@@ -28,14 +28,14 @@ exports.create = function (api) {
 
   return {
     follows: function (id, cb) {
-      return query({query: [
+      return sbotQuery({query: [
         makeQuery(id, {$prefix:"@"}),
         {"$map": ['value', 'content', 'contact']}
       ]})
     },
 
     followers: function (id) {
-      return query({query: [
+      return sbotQuery({query: [
         makeQuery({$prefix:"@"}, id),
         {"$map": ['value', 'author']}
       ]})
@@ -43,7 +43,7 @@ exports.create = function (api) {
 
     follower_of: function (source, dest, cb) {
       pull(
-        query({query: [
+        sbotQuery({query: [
           makeQuery(source, dest),
           {$map: ['value', 'content', 'following']}
         ]}),
