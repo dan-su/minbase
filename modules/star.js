@@ -2,10 +2,10 @@ var h = require('hyperscript')
 var u = require('../util')
 var pull = require('pull-stream')
 var emojiUrl = require('./helpers').emojiurl
+var messageLink = require('./helpers').message_link
 
 exports.needs = {
   message_confirm: 'first',
-  message_link: 'first',
   sbot_links: 'first'
 }
 
@@ -29,7 +29,7 @@ exports.create = function (api) {
         msg.value.content.vote.value > 0 
         ? h('img', {className: 'emoji', src: star}) 
         : h('img', {className: 'emoji', src: stars}),
-        ' ', api.message_link(link)
+        ' ', messageLink(link)
       ]
   }
 

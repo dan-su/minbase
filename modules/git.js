@@ -7,9 +7,10 @@ var combobox = require('hypercombo')
 var KVGraph = require('kvgraph')
 var mergeRepo = require('ssb-git/merge')
 var self_id = require('../keys').id
+var messageLink = require('./helpers').message_link
+
 
 exports.needs = {
-  message_link: 'first',
   message_confirm: 'first',
   message_compose: 'first',
   sbot_links: 'first',
@@ -137,10 +138,10 @@ exports.create = function (api) {
   function renderIssueEdit(c) {
     var id = c.issue || c.link
     return [
-      c.title ? h('p', 'renamed issue ', api.message_link(id),
+      c.title ? h('p', 'renamed issue ', messageLink(id),
         ' to ', h('ins', c.title)) : null,
-      c.open === false ? h('p', 'closed issue ', api.message_link(id)) : null,
-      c.open === true ? h('p', 'reopened issue ', api.message_link(id)) : null]
+      c.open === false ? h('p', 'closed issue ', messageLink(id)) : null,
+      c.open === true ? h('p', 'reopened issue ', messageLink(id)) : null]
   }
 
   function findMessageContent(el) {
@@ -403,10 +404,10 @@ exports.create = function (api) {
           ] : null,
           Array.isArray(c.issues) ? c.issues.map(function (issue) {
             if (issue.merged === true)
-              return h('p', 'Merged ', api.message_link(issue.link), ' in ',
+              return h('p', 'Merged ', messageLink(issue.link), ' in ',
                 h('code', issue.object), ' ', h('q', issue.label))
             if (issue.open === false)
-              return h('p', 'Closed ', api.message_link(issue.link), ' in ',
+              return h('p', 'Closed ', messageLink(issue.link), ' in ',
                 h('code', issue.object), ' ', h('q', issue.label))
           }) : null,
           newPullRequestButton.call(this, msg)

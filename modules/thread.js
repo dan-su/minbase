@@ -6,6 +6,7 @@ var h = require('hyperscript')
 var u = require('../util')
 var Scroller = require('pull-scroll')
 var self_id = require('../keys').id
+var messageName = require('./helpers').message_name
 
 function once (cont) {
   var ended = false
@@ -23,7 +24,6 @@ function once (cont) {
 
 exports.needs = {
   message_render: 'first',
-  message_name: 'first',
   message_compose: 'first',
   message_unbox: 'first',
   sbot_get: 'first',
@@ -72,7 +72,7 @@ exports.create = function (api) {
         )
       )
 
-      api.message_name(id, function (err, name) {
+      messageName(id, function (err, name) {
         div.title = name
       })
 

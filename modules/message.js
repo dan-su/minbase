@@ -1,6 +1,7 @@
 var h = require('hyperscript')
 var pull = require('pull-stream')
 var timestamp = require('./helpers').timestamp
+var messageLink = require('./helpers').message_link
 
 exports.needs = {
   message_content: 'first',
@@ -8,8 +9,7 @@ exports.needs = {
   avatar: 'first',
   avatar_name: 'first',
   avatar_link: 'first',
-  message_action: 'map',
-  message_link: 'first'
+  message_action: 'map'
 }
 
 exports.gives = 'message_render'
@@ -52,7 +52,7 @@ exports.create = function (api) {
     if(links.length)
       backlinks.appendChild(h('label', 'backlinks:', 
         h('div', links.map(function (key) {
-          return api.message_link(key)
+          return messageLink(key)
         }))
       ))
 
