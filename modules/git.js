@@ -8,7 +8,7 @@ var KVGraph = require('kvgraph')
 var mergeRepo = require('ssb-git/merge')
 var self_id = require('../keys').id
 var messageLink = require('./helpers').message_link
-
+var markdown = require('./helpers').markdown
 
 exports.needs = {
   message_confirm: 'first',
@@ -16,8 +16,7 @@ exports.needs = {
   sbot_links: 'first',
   sbot_links2: 'first',
   sbot_get: 'first',
-  avatar_name: 'first',
-  markdown: 'first'
+  avatar_name: 'first'
 }
 
 exports.gives = {
@@ -425,7 +424,7 @@ exports.create = function (api) {
         return h('div',
           h('p', 'opened issue on ', repoLink(c.project)),
           c.title ? h('h4', c.title) : '',
-          api.markdown(c)
+          markdown(c)
         )
       }
 
@@ -435,7 +434,7 @@ exports.create = function (api) {
             'to ', repoLink(c.repo), ':', c.branch, ' ',
             'from ', repoLink(c.head_repo), ':', c.head_branch),
           c.title ? h('h4', c.title) : '',
-          api.markdown(c)
+          markdown(c)
         )
       }
     },

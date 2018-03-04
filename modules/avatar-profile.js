@@ -1,9 +1,9 @@
 var h = require('hyperscript')
 var pull = require('pull-stream')
 var self_id = require('../keys')
+var markdown = require('./helpers').markdown
 
 exports.needs = {
-  markdown: 'first',
   avatar_image: 'first',
   avatar_name: 'first',
   avatar_action: 'map',
@@ -37,7 +37,7 @@ exports.create = function (api) {
     pull(api.sbot_query({query: [{$filter: { value: { author: id, content: {type: 'description'}}}}], limit: 1, reverse: true}),
     pull.drain(function (data){
       if(data.value.content.description) {
-        description.appendChild(h('span', h('strong', 'Description: '), api.markdown(data.value.content.description)))
+        description.appendChild(h('span', h('strong', 'Description: '), markdown(data.value.content.description)))
       }
     }))
 

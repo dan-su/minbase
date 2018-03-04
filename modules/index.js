@@ -16,7 +16,6 @@ module.exports = {
   "follow.js":  require('./follow.js'),
   "star.js":  require('./star.js'),
   "git.js":  require('./git.js'),
-  "markdown.js":  require('./markdown.js'),
   "message.js":  require('./message.js'),
   "edit.js": require('./edit.js'),
   "names.js":  require('./names.js'),
