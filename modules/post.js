@@ -1,9 +1,6 @@
-var markdown = require('ssb-markdown')
 var h = require('hyperscript')
-var u = require('../util')
-var ref = require('ssb-ref')
-
-exports.needs = { message_link: 'first', markdown: 'first' }
+var messageLink = require('./helpers').message_link
+var markdown = require('./helpers').markdown 
 
 exports.gives = 'message_content'
 
@@ -12,11 +9,11 @@ exports.create = function (api) {
     if(!data.value.content || !data.value.content.text) return
 
     var root = data.value.content.root
-    var re = !root ? null : h('span', 're: ', api.message_link(root))
+    var re = !root ? null : h('span', 're: ', messageLink(root))
 
     return h('div',
       re,
-      api.markdown(data.value.content)
+      markdown(data.value.content)
     )
 
   }
