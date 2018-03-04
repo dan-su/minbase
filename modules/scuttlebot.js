@@ -70,7 +70,13 @@ module.exports = {
     )
   }),
   userstream: rec.source(function (config) {
-    return sbot.createUserStream(config)
+    return pull(
+      sbot.createUserStream(config),
+      pull.through(function (e) {
+        CACHE[e.key] = CACHE[e.key] || e.value
+      })
+    )
+    //return sbot.createUserStream(config)
   }),
   get: rec.async(function (key, cb) {
     if('function' !== typeof cb)
