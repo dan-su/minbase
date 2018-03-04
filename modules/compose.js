@@ -6,12 +6,44 @@ var mentions = require('ssb-mentions')
 var lightbox = require('hyperlightbox')
 var cont = require('cont')
 
+var pull = require('pull-stream')
+var mime = require('simple-mime')('application/octect-stream')
+var split = require('split-buffer')
+var addblob = require('./scuttlebot').blobs_add
+
+function file_input (onAdded) {
+  return h('label.btn', 'Upload file',
+    h('input', { type: 'file', hidden: true,
+    onchange: function (ev) {
+      var file = ev.target.files[0]
+      if (!file) return
+      var reader = new FileReader()
+      reader.onload = function () {
+        pull(
+          pull.values(split(new Buffer(reader.result), 64*1024)),
+          addblob(function (err, blob) {
+            if(err) return console.error(err)
+            onAdded({
+              link: blob,
+              name: file.name,
+              size: reader.result.length || reader.result.byteLength,
+              type: mime(file.name)
+            })
+          })
+        )
+      }
+      reader.readAsArrayBuffer(file)
+    }
+  }))
+}
+
+
+
 exports.needs = {
   suggest_mentions: 'map',
   publish: 'first',
   message_content: 'first',
-  message_confirm: 'first',
-  file_input: 'first'
+  message_confirm: 'first'
 }
 
 exports.gives = 'message_compose'
@@ -51,7 +83,7 @@ exports.create = function (api) {
     accessories = h('div.row.compose__controls',
       publishBtn,
       {style: {display: 'none'}},
-      api.file_input(function (file) {
+      file_input(function (file) {
         files.push(file)
         filesById[file.link] = file
         var embed = file.type.indexOf('image/') === 0 ? '!' : ''

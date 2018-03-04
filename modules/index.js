@@ -1,7 +1,6 @@
 module.exports = {
   "app.js":  require('./app.js'),
   "crypto.js":  require('./crypto.js'),
-  "file-input.js":  require('./file-input.js'),
   "message-confirm.js":  require('./message-confirm.js'),
   "about.js":  require('./about.js'),
   "avatar-image.js":  require('./avatar-image.js'),
