@@ -11,7 +11,6 @@ exports.needs = {
 exports.gives = {
   message_content: true,
   message_content_mini: true,
-  message_meta: true,
   message_action: true
 }
 
