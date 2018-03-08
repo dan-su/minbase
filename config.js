@@ -16,8 +16,12 @@ module.exports = function () {
   })
 
   var config = JSON.parse(localStorage[host])
-  var remote = config.address
   var blobsUrl = host + '/blobs/get'
+
+  if (config.ws.remote)
+    var remote = config.ws.remote
+  else
+    var remote = config.address
 
   return {
     config: config,
