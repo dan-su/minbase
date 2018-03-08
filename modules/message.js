@@ -2,6 +2,8 @@ var h = require('hyperscript')
 var pull = require('pull-stream')
 var timestamp = require('./helpers').timestamp
 var messageLink = require('./helpers').message_link
+var getStars = require('./getstars').getstars
+
 
 exports.needs = {
   message_content: 'first',
@@ -59,7 +61,7 @@ exports.create = function (api) {
     var msg = h('div.message',
       h('div.title.row',
         h('div.avatar', api.avatar(msg.value.author, 'thumbnail')),
-        h('div.message_meta', timestamp(msg))
+        h('div.message_meta', getStars(msg), timestamp(msg))
       ),
       h('div.column',
         h('div.message_content.row', el),

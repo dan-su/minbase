@@ -32,27 +32,6 @@ exports.create = function (api) {
       ]
   }
 
-  exports.message_meta = function (msg, sbot) {
-    var star = emojiUrl('star')
-    var digs = h('a')
-
-    var votes = []
-    for(var k in CACHE) {
-      if (CACHE[k].content.vote != null) {
-        if(CACHE[k].content.type == 'vote' &&
-        (CACHE[k].content.vote == msg.key ||
-        CACHE[k].content.vote.link == msg.key
-        ))
-        votes.push({source: CACHE[k].author, dest: k, rel: 'vote'})
-      }
-    }
-    var digs
-    for (i = 0; i < votes.length; i++) {
-      digs = '<img src="' + star + '" class="emoji">' + digs
-    }
-    return h('span', {innerHTML: digs})
-  }
-
   exports.message_action = function (msg, sbot) {
     var star = emojiUrl('star')
     if(msg.value.content.type !== 'vote')
@@ -74,3 +53,4 @@ exports.create = function (api) {
   }
   return exports
 }
+
