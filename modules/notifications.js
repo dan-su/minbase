@@ -11,8 +11,7 @@ var get = require('./scuttlebot').get
 var userstream = require('./scuttlebot').userstream
 
 exports.needs = {
-  message_render: 'first',
-  message_unbox: 'first'
+  message_render: 'first'
 }
 
 exports.gives = {
@@ -21,15 +20,6 @@ exports.gives = {
 }
 
 exports.create = function (api) {
-  /*function unbox() {
-    return pull(
-      pull.map(function (msg) {
-        return msg.value && 'string' === typeof msg.value.content ?
-          api.message_unbox(msg) : msg
-      }),
-      pull.filter(Boolean)
-    )
-  }*/
 
   function notifications(ourIds) {
 
@@ -136,7 +126,6 @@ exports.create = function (api) {
 
         pull(
           u.next(log, {old: false, limit: 100}),
-          //unbox(),
           notifications(ids),
           pull.filter(),
           Scroller(div, content, api.message_render, true, false)
@@ -144,11 +133,9 @@ exports.create = function (api) {
 
         pull(
           u.next(log, {reverse: true, limit: 100, live: false}),
-          //unbox(),
           notifications(ids),
           pull.filter(),
           pull.take(function (msg) {
-            // abort stream after we pass the oldest messages of our feeds
             return !oldest ? true : msg.value.timestamp > oldest
           }),
           Scroller(div, content, api.message_render, false, false)

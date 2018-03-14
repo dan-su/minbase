@@ -1,5 +1,4 @@
 var pull = require('pull-stream')
-var Cat = require('pull-cat')
 var sort = require('ssb-sort')
 var ref = require('ssb-ref')
 var h = require('hyperscript')
@@ -10,6 +9,7 @@ var messageName = require('./helpers').message_name
 
 var get = require('./scuttlebot').get 
 var links = require('./scuttlebot').links
+var Unbox = require('./helpers-private').unbox
 
 function once (cont) {
   var ended = false
@@ -27,8 +27,7 @@ function once (cont) {
 
 exports.needs = {
   message_render: 'first',
-  message_compose: 'first',
-  message_unbox: 'first'
+  message_compose: 'first'
 }
 
 exports.gives = 'screen_view'
@@ -97,7 +96,7 @@ exports.create = function (api) {
 
           //decrypt
           thread = thread.map(function (msg) {
-            return 'string' === typeof msg.value.content ? api.message_unbox(msg) : msg
+            return 'string' === typeof msg.value.content ? Unbox(msg) : msg
           })
 
           if(err) return content.appendChild(h('pre', err.stack))

@@ -93,8 +93,6 @@ module.exports.message_link = function (id) {
 }
 
 var markdown = require('ssb-markdown')
-//var h = require('hyperscript')
-//var ref = require('ssb-ref')
 var blobUrl = exports.bloburl
 var emojiUrl = exports.emojiurl
 

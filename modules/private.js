@@ -6,16 +6,15 @@ var Scroller = require('pull-scroll')
 var ref = require('ssb-ref')
 var emojiUrl = require('./helpers').emojiurl
 var log = require('./scuttlebot').log
+var Unbox = require('./helpers-private').unbox
 
 function map(ary, iter) {
   if(Array.isArray(ary)) return ary.map(iter)
 }
 
-
 exports.needs = {
   message_render: 'first',
   message_compose: 'first',
-  message_unbox: 'first',
   avatar_image_link: 'first'
 }
 
@@ -33,7 +32,7 @@ exports.create = function (api) {
         return 'string' == typeof msg.value.content
       }),
       pull.map(function (msg) {
-        return api.message_unbox(msg)
+        return Unbox(msg)
       }),
       pull.filter(Boolean)
     )

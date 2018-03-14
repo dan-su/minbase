@@ -37,11 +37,8 @@ function file_input (onAdded) {
   }))
 }
 
-
-
 exports.needs = {
   suggest_mentions: 'map',
-  publish: 'first',
   message_content: 'first',
   message_confirm: 'first'
 }

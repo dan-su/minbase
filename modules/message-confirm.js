@@ -2,9 +2,11 @@ var lightbox = require('hyperlightbox')
 var h = require('hyperscript')
 var u = require('../util')
 var self_id = require('../keys').id
+var publish = require('./helpers-private').publish
 
 exports.needs = {
-  publish: 'first', message_content: 'first', avatar: 'first',
+  message_content: 'first', 
+  avatar: 'first',
   message_meta: 'map'
 }
 
@@ -31,7 +33,7 @@ exports.create = function (api) {
 
     var okay = h('button.btn.btn-primary', 'Publish', {onclick: function () {
       lb.remove()
-      api.publish(content, cb)
+      publish(content, cb)
     }})
 
     var cancel = h('button.btn', 'Cancel', {onclick: function () {
