@@ -5,8 +5,7 @@ function isImage (filename) {
 }
 
 exports.needs = {
-  signified: 'first',
-  builtin_tabs: 'map'
+  signified: 'first'
 }
 
 exports.gives = {
