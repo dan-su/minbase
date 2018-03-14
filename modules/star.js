@@ -9,7 +9,6 @@ exports.needs = {
 }
 
 exports.gives = {
-  message_content: true,
   message_content_mini: true,
   message_action: true
 }
@@ -17,7 +16,6 @@ exports.gives = {
 exports.create = function (api) {
   var exports = {}
 
-  exports.message_content =
   exports.message_content_mini = function (msg, sbot) {
     var star = emojiUrl('star')
     var stars = emojiUrl('stars')
