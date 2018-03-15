@@ -7,7 +7,8 @@ var publish = require('./helpers-private').publish
 exports.needs = {
   message_content: 'first', 
   avatar: 'first',
-  message_meta: 'map'
+  message_meta: 'map',
+  message_render: 'first'
 }
 
 exports.gives = 'message_confirm'
@@ -41,21 +42,12 @@ exports.create = function (api) {
       cb(null)
     }})
 
-    okay.addEventListener('keydown', function (ev) {
-      if(ev.keyCode === 27) cancel.click() //escape
-    })
-
-    lb.show(h('div.column.message-confirm',
-      h('div.message', 
-        h('div.title.row',
-          h('div.avatar', api.avatar(msg.value.author, 'thumbnail')),
-          h('div.message_meta.row', api.message_meta(msg))
-        ),
-        h('div.message_content', 
-          api.message_content(msg) || h('pre', JSON.stringify(msg, null, 2))), 
+    lb.show(
+      h('div.column.message-confirm',
+        api.message_render(msg),
         h('div.row.message-confirm__controls', okay, cancel)
       )
-    ))
+    )
 
     okay.focus()
   }
