@@ -8,15 +8,10 @@ exports.needs = {
 }
 
 exports.gives = { 
-  message_content: true,
   message_content_mini: true
 }
 
 exports.create = function (api) {
-  var exports = {}
- 
-  exports.message_content =
-
   exports.message_content_mini = function (msg) {
     var about = msg.value.content
     var id = msg.value.content.about

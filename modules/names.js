@@ -5,18 +5,14 @@ var mfr = require('map-filter-reduce')
 var links2 = require('./scuttlebot').links2
 var sbotQuery = require('./scuttlebot').query
 
-function all(stream, cb) {
+/*function all(stream, cb) {
   pull(stream, pull.collect(cb))
-}
+}*/
 
 exports.gives = {
   signifier: true,
   signified: true,
 }
-
-/*
-  filter(rel: ['mentions', prefix('@')]) | reduce(name: rel[1], value: count())
-*/
 
 var filter = {
   $filter: {
@@ -60,8 +56,6 @@ var map2 = {
   }
 }
 
-//union with this query...
-
 var names = NAMES = []
 function update(name) {
   var n = names.find(function (e) {
@@ -69,7 +63,6 @@ function update(name) {
   })
   if(!n) {
     name.rank = 1
-    //this should be inserted at the right place...
     names.push(name)
   }
   else

@@ -17,14 +17,11 @@ exports.needs = {
 }
 
 exports.gives = {
-  message_content: true,
   message_content_mini: true,
   avatar_action: true,
 }
 
 exports.create = function (api) {
-  var exports = {}
-  exports.message_content =
   exports.message_content_mini = function (msg) {
     var content = msg.value.content
     if(content.type == 'contact' && content.contact) {
