@@ -4,13 +4,12 @@ var self_id = require('../keys')
 var markdown = require('./helpers').markdown
 var query = require('./scuttlebot').query
 
+var getImage = require('./simpleavatar').image
+var getName = require('./simpleavatar').name
 var getDesc = require('./simpleavatar').description
 var getLoc = require('./simpleavatar').loc
-var getName = require('./simpleavatar').name
 
 exports.needs = {
-  avatar_image: 'first',
-  avatar_name: 'first',
   avatar_action: 'map'
 }
 
@@ -25,8 +24,7 @@ exports.create = function (api) {
 
     var layout = h('div.column',
       h('div.message',
-        api.avatar_image(id, 'profile'), 
-        //api.avatar_name(id),
+        h('div.avatar--profile', getImage(id, 'profile')),
         h('a', {href: '#' + id}, getName(id)),
         getLoc(id),
         getDesc(id),
