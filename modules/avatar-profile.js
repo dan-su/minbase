@@ -6,6 +6,7 @@ var query = require('./scuttlebot').query
 
 var getDesc = require('./simpleavatar').description
 var getLoc = require('./simpleavatar').loc
+var getName = require('./simpleavatar').name
 
 exports.needs = {
   avatar_image: 'first',
@@ -25,7 +26,8 @@ exports.create = function (api) {
     var layout = h('div.column',
       h('div.message',
         api.avatar_image(id, 'profile'), 
-        api.avatar_name(id),
+        //api.avatar_name(id),
+        h('a', {href: '#' + id}, getName(id)),
         getLoc(id),
         getDesc(id),
         h('pre', h('code', id)),
