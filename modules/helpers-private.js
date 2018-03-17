@@ -45,3 +45,18 @@ module.exports.publish = function (content, cb) {
     if(cb) cb(err, msg)
   })
 }
+
+var h = require('hyperscript')
+
+module.exports.getrecps = function (msg) {
+
+  function map(ary, iter) {
+    if(Array.isArray(ary)) return ary.map(iter)
+  }
+
+  if(msg.value.content.recps || msg.value.private) {
+    return h('span.row', 'PRIVATE', map(msg.value.content.recps, function (id) {
+      return api.avatar_image_link('string' == typeof id ? id : id.link, 'thumbnail')
+    }))
+  }
+}

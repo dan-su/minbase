@@ -1,7 +1,7 @@
 {
   "name": "minbase",
   "description": "minimal as possible secure-scuttlebutt lite client",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "homepage": "https://github.com/evbogue/minbase",
   "repository": {
     "type": "git",
@@ -34,7 +34,7 @@
     "ssb-client": "^4.5.1",
     "ssb-feed": "^2.3.0",
     "ssb-git": "^0.5.0",
-    "ssb-keys": "7.0.12",
+    "ssb-keys": "^7.0.12",
     "ssb-markdown": "^3.3.0",
     "ssb-mentions": "^0.4.1",
     "ssb-ref": "^2.7.1",
