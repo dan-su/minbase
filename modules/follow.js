@@ -1,6 +1,7 @@
 var h = require('hyperscript')
 var u = require('../util')
 var pull = require('pull-stream')
+var avatar = require('./avatar')
 
 //render a message when someone follows someone,
 //so you see new users
@@ -9,9 +10,6 @@ function isRelated(value, name) {
 }
 
 exports.needs = {
-  avatar: 'first',
-  avatar_name: 'first',
-  avatar_link: 'first',
   message_confirm: 'first',
   follower_of: 'first'
 }
@@ -24,12 +22,12 @@ exports.gives = {
 exports.create = function (api) {
   exports.message_content_mini = function (msg) {
     var content = msg.value.content
-    if(content.type == 'contact' && content.contact) {
-      var relation = isRelated(content.following, 'follows')
-      if(content.blocking) relation = 'blocks'
+    if(content.type == 'contact' && msg.value.content.contact) {
+      var relation = isRelated(msg.value.content.following, 'follows')
+      if(msg.value.content.blocking) relation = 'blocks'
       return [
         relation, ' ',
-        api.avatar_link(content.contact, api.avatar_name(content.contact), '')
+        h('h', {href: '#' + msg.value.content.contact}, avatar.name(msg.value.content.contact))
       ]
     }
   }

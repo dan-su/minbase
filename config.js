@@ -1,12 +1,7 @@
 var http = require('http')
 
 module.exports = function () {
-  if (localStorage.host) 
-    var host = localStorage.host
-  else
-    var host = window.location.origin
-
-  console.log(host)
+  var host = window.location.origin
 
   http.get(host + '/get-config', function (res) {
     res.on('data', function (data, remote) {
@@ -16,18 +11,16 @@ module.exports = function () {
   })
 
   var config = JSON.parse(localStorage[host])
-  var blobsUrl = host + '/blobs/get'
+
+  config.blobsUrl = host + '/blobs/get/'
+  config.emojiUrl = host + '/img/emoji/'
 
   if (config.ws.remote)
-    var remote = config.ws.remote
+    config.remote = config.ws.remote
   else
-    var remote = config.address
+    config.remote = config.address
 
-  return {
-    config: config,
-    remote: remote,
-    blobsUrl: blobsUrl
-  }
+  return config
 }
 
 

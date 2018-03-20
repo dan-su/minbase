@@ -8,16 +8,17 @@ var pull = require('pull-stream')
 var id = require('../keys').id
 var addblob = require('./scuttlebot').blobs_add
 
+var avatar = require('./avatar')
+
 exports.needs = {
-  message_confirm: 'first',
-  avatar_image: 'first'
+  message_confirm: 'first'
 }
 
 exports.gives = 'avatar_edit'
 
 exports.create = function (api) {
   return function () {
-    var img = api.avatar_image(id, 'profile')
+    var img = h('div.avatar--profile', avatar.image(id, 'profile')) 
 
     var selected = null, selected_data = null
 

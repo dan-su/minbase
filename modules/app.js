@@ -1,11 +1,11 @@
 var h = require('hyperscript')
 var id = require('../keys').id
 
+var avatar = require('./avatar')
+
 module.exports = {
   needs: {
-    screen_view: 'first',
-    avatar_name: 'first',
-    avatar_image: 'first'
+    screen_view: 'first'
   },
   gives: 'app',
 
@@ -34,8 +34,8 @@ module.exports = {
 
       document.body.appendChild(h('div.navbar',
         h('div.internal', 
-          h('li', h('a', {href: '#' + id}, api.avatar_image(id, 'tiny'))),
-          h('li', h('a', {href: '#' + id}, api.avatar_name(id))),
+          //h('li', h('a', {href: '#' + id}, api.avatar_image(id, 'tiny'))),
+          h('li', h('a', {href: '#' + id}, avatar.name(id))),
           h('li', h('a', {href: '#'}, 'Public')),
           h('li', h('a', {href: '#Private'}, 'Private')),
           h('li', h('a', {href: '#Mentions'}, 'Mentions')),

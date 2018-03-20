@@ -1,16 +1,14 @@
 var h = require('hyperscript')
 var pull = require('pull-stream')
 var timestamp = require('./helpers').timestamp
-var messageLink = require('./helpers').message_link
 var getStars = require('./getstars').getstars
+var messageLink = require('./helpers').message_link
 
+var avatar = require('./avatar')
 
 exports.needs = {
   message_content: 'first',
   message_content_mini: 'first',
-  avatar: 'first',
-  avatar_name: 'first',
-  avatar_link: 'first',
   message_action: 'map'
 }
 
@@ -25,7 +23,7 @@ exports.create = function (api) {
   function mini(msg, el) {
     var div = h('div.message.message--mini',
       h('div.row',
-        h('div.avatar', api.avatar_link(msg.value.author, api.avatar_name(msg.value.author), ''), 
+        h('div.avatar', h('a', {href: '#' + msg.value.author}, avatar.name(msg.value.author), ''), 
         h('span.message_content', el)),
         h('div.message_meta', timestamp(msg)) 
       )
@@ -60,7 +58,10 @@ exports.create = function (api) {
 
     var msg = h('div.message',
       h('div.title.row',
-        h('div.avatar', api.avatar(msg.value.author, 'thumbnail')),
+        h('a', {href: '#' + msg.value.author }, 
+          h('div.avatar--thumbnail', avatar.image(msg.value.author)),
+          avatar.name(msg.value.author)
+        ),
         h('div.message_meta', getStars(msg), timestamp(msg))
       ),
       h('div.column',

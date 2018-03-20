@@ -23,19 +23,6 @@ module.exports.timestamp = function (msg) {
   return timestamp
 }
 
-var host = window.location.origin
-
-module.exports.bloburl = function (link) {
-  // this function returns the url where you'll find ssb blobs 
-
-  if('string' == typeof link.link)
-    link = link.link
-
-  var blobUrl = host + '/blobs/get/' + link
-
-  return blobUrl
-}
-
 var emojis = require('emoji-named-characters')
 
 module.exports.emojinames = function () {
@@ -43,17 +30,7 @@ module.exports.emojinames = function () {
   return emojiNames
 }
 
-var blobUrl = require('./helpers').bloburl
-
-module.exports.emojiurl = function (emoji) {
-  return emoji in emojis &&
-    blobUrl(emoji).replace(/\/blobs\/get/, '/img/emoji') + '.png'
-    //host + '/img/emoji/' + emoji + '.png'
-}
-
-
 var sbot = require('./scuttlebot.js')
-var ref = require('ssb-ref')
 
 module.exports.message_name = function (id, cb) {
   // gets the first few characters of a message, for message-link
@@ -75,6 +52,7 @@ module.exports.message_name = function (id, cb) {
 }
 
 var messageName = exports.message_name
+var ref = require('ssb-ref')
 
 module.exports.message_link = function (id) {
   // generates a link to a message that has been replied to
@@ -93,12 +71,12 @@ module.exports.message_link = function (id) {
 }
 
 var markdown = require('ssb-markdown')
-var blobUrl = exports.bloburl
-var emojiUrl = exports.emojiurl
+
+var config = require('../config')()
 
 module.exports.markdown = function (content) {
  function renderEmoji(emoji) {
-    var url = emojiUrl(emoji)
+    var url = config.emojiUrl + emoji
     if (!url) return ':' + emoji + ':'
     return '<img src="' + encodeURI(url) + '"'
       + ' alt=":' + escape(emoji) + ':"'
@@ -115,7 +93,7 @@ module.exports.markdown = function (content) {
     md.innerHTML = markdown.block(content.text, {
       emoji: renderEmoji,
       toUrl: function (id) {
-        if(ref.isBlob(id)) return blobUrl(id)
+        if(ref.isBlob(id)) return config.blobsUrl + id
         return '#'+(mentions[id]?mentions[id]:id)
       }
     })

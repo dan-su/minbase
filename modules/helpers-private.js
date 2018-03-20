@@ -56,7 +56,8 @@ module.exports.getrecps = function (msg) {
 
   if(msg.value.content.recps || msg.value.private) {
     return h('span.row', 'PRIVATE', map(msg.value.content.recps, function (id) {
-      return api.avatar_image_link('string' == typeof id ? id : id.link, 'thumbnail')
+      return h('div.avatar--thumbnail', avatar.image(id))
+      //api.avatar_image_link('string' == typeof id ? id : id.link, 'thumbnail')
     }))
   }
 }

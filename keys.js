@@ -1,5 +1,5 @@
 
-var config = require('./config')().config
+var config = require('./config')()
 var ssbKeys      = require('ssb-keys')
 var path         = require('path')
 

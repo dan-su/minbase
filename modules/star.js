@@ -1,8 +1,9 @@
 var h = require('hyperscript')
 var u = require('../util')
 var pull = require('pull-stream')
-var emojiUrl = require('./helpers').emojiurl
 var messageLink = require('./helpers').message_link
+
+var config = require('../config')()
 
 exports.needs = {
   message_confirm: 'first'
@@ -15,8 +16,9 @@ exports.gives = {
 
 exports.create = function (api) {
   exports.message_content_mini = function (msg, sbot) {
-    var star = emojiUrl('star')
-    var stars = emojiUrl('stars')
+    console.log(config.emojiUrl)
+    var star = config.emojiUrl + 'star.png'
+    var stars = config.emojiUrl + 'stars.png'
     if(msg.value.content.type !== 'vote') return
     var link = msg.value.content.vote.link
     return [
@@ -28,7 +30,8 @@ exports.create = function (api) {
   }
 
   exports.message_action = function (msg, sbot) {
-    var star = emojiUrl('star')
+    var star = config.emojiUrl + 'star.png'
+    console.log(star)
     if(msg.value.content.type !== 'vote')
       return h('a.dig', {href: '#', onclick: function (e) {
         e.preventDefault()

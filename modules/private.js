@@ -4,9 +4,10 @@ var u = require('../util')
 var pull = require('pull-stream')
 var Scroller = require('pull-scroll')
 var ref = require('ssb-ref')
-var emojiUrl = require('./helpers').emojiurl
 var log = require('./scuttlebot').log
 var Unbox = require('./helpers-private').unbox
+
+var config = require('../config')()
 
 function map(ary, iter) {
   if(Array.isArray(ary)) return ary.map(iter)
@@ -14,13 +15,11 @@ function map(ary, iter) {
 
 exports.needs = {
   message_render: 'first',
-  message_compose: 'first',
-  avatar_image_link: 'first'
+  message_compose: 'first'
 }
 
 exports.gives = {
   screen_view: true,
-  message_meta: true,
   message_content_mini: true
 }
 
@@ -81,16 +80,16 @@ exports.create = function (api) {
       }
     },
 
-    message_meta: function (msg) {
+    /*message_meta: function (msg) {
       if(msg.value.content.recps || msg.value.private)
         return h('span.row', 'PRIVATE', map(msg.value.content.recps, function (id) {
           return api.avatar_image_link('string' == typeof id ? id : id.link, 'thumbnail')
         }))
-    },
+    },*/
 
     message_content_mini: function (msg, sbot)  {
       if (typeof msg.value.content === 'string') {
-        var icon = emojiUrl('lock')
+        var icon = config.emojiUrl + 'lock.png'
         return icon
           ? h('img', {className: 'emoji', src: icon})
           : 'PRIVATE'

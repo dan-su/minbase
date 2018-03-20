@@ -4,7 +4,7 @@ var ref = require('ssb-ref')
 var reconnect = require('pull-reconnect')
 var path = require('path')
 
-var config = require('../config')().config
+var config = require('../config')()
 
 var createClient = require('ssb-client')
 
@@ -13,6 +13,8 @@ var keys = require('../keys')
 
 var cache = CACHE = {}
 
+console.log(config)
+
 var rec = reconnect(function (isConn) {
   function notify (value) {
     isConn(value)
@@ -20,7 +22,7 @@ var rec = reconnect(function (isConn) {
 
   createClient(keys, {
     manifest: require('../manifest.json'),
-    remote: require('../config')().remote,
+    remote: config.remote,
     caps: config.caps
   }, function (err, _sbot) {
     if(err)

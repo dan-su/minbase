@@ -3,7 +3,7 @@ var u = require('../util')
 var pull = require('pull-stream')
 var Scroller = require('pull-scroll')
 
-var config = require('../config')().config
+var config = require('../config')()
 
 exports.gives = {
   screen_view: true

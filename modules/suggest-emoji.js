@@ -1,5 +1,6 @@
 var emojiNames = require('./helpers').emojinames
-var emojiUrl = require('./helpers').emojiurl
+
+var config = require('../config')
 
 exports.gives = 'suggest_mentions'
 
@@ -14,7 +15,7 @@ exports.create = function (api) {
         return name.substr(0, word.length) === word
       }).slice(0, 50).map(function (emoji) {
         return {
-          image: emojiUrl(emoji),
+          image: config.emojiUrl + emoji,
           title: emoji,
           subtitle: emoji,
           value: ':' + emoji + ':'

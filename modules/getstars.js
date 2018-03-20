@@ -1,8 +1,9 @@
 var h = require('hyperscript')
-var emojiUrl = require('./helpers').emojiurl
+
+var config = require ('../config')()
 
 module.exports.getstars = function (msg, sbot) {
-  var star = emojiUrl('star')
+  var star = config.emojiUrl + 'star.png'
   var digs = h('a')
 
   var votes = []

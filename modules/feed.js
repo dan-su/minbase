@@ -7,8 +7,7 @@ var userstream = require('./scuttlebot').userstream
 
 exports.needs = {
   message_render: 'first',
-  avatar_profile: 'first',
-  signifier: 'first'
+  avatar_profile: 'first'
 }
 
 exports.gives = 'screen_view'
@@ -27,9 +26,9 @@ exports.create = function (api) {
         )
       )
 
-      api.signifier(id, function (_, names) {
+      /*api.signifier(id, function (_, names) {
         if(names.length) div.title = names[0].name
-      })
+      })*/
 
       pull(
         userstream({id: id, old: false, live: true}),

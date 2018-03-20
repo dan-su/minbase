@@ -6,8 +6,6 @@ var publish = require('./helpers-private').publish
 
 exports.needs = {
   message_content: 'first', 
-  avatar: 'first',
-  message_meta: 'map',
   message_render: 'first'
 }
 

@@ -308,7 +308,7 @@ textarea:focus, {
   margin-top: auto;
 }
 
-.message img:not(.emoji):not(.avatar--thumbnail):not(.avatar--profile) {
+.message img {
   max-width: 98%;
   border: 1px solid #ccc;
   padding: 4px;
@@ -330,6 +330,11 @@ textarea:focus, {
   height: 14px;
   width: 14px;
   vertical-align: top;
+  border: none;
+  padding: 0;
+}
+
+img.emoji {
   border: none;
   padding: none;
 }
@@ -367,15 +372,24 @@ textarea:focus, {
 /* avatar */
 
 .avatar--profile {
+  float: left;
+}
+
+.avatar--profile img {
+  border: none;
   width: 5em;
   height: 5em;
-  float: left;
   margin-right: 5px;
   vertical-align: top;
   border-radius: 4px;
 }
 
 .avatar--thumbnail {
+  float: left;
+}
+
+.avatar--thumbnail img {
+  border: none;
   width: 2.5em;
   height: 2.5em;
   vertical-align: top;
