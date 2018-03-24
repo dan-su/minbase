@@ -34,17 +34,15 @@ exports.create = function (api) {
       pull.collect(function (err, data){
         if(data[0]) {
           for (var i = 0; i < data.length; i++) {
-            data = data[i]
-            if (data.value.author == self_id)
-              var editeditor = editor 
-            else 
-              var editeditor = '' 
-            console.log(data.key)
+            edited = data[i]
+            console.log(edited.key)
             message.appendChild(
-              h('div.innercontent', 
-                h('span.edited', 'Edited ', timestamp(data)), 
-                markdown(data.value.content.text),
-                editeditor
+              h('div.innercontent',
+                h('span.edited',
+                  'Edited ',
+                  timestamp(edited)),
+                  markdown(edited.value.content.text),
+                  api.message_compose(meta, {text: edited.value.content.text})
               )
             )
           }
