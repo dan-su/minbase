@@ -114,6 +114,7 @@ button.btn-search {
   animation: fadein .5s;
 }
 
+
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
@@ -291,12 +292,29 @@ textarea:focus, {
   padding-top: 3px;
 }
 
+.message_content > span, .message_content > div {
+  width: 100%;
+}
+
 .message_content--mini div > span {
   display: inline-block;
 }
 
 .message_meta {
   margin-left: auto;
+}
+
+.edited {
+  float: right;
+}
+
+.message .innercontent {
+  width: 100%;
+  display: none;
+}
+
+.message .innercontent:last-child {
+  display: block;
 }
 
 .message_meta > * {

@@ -75,7 +75,7 @@ exports.create = function (api) {
     var ta = h('textarea', {
       placeholder: opts.placeholder || 'Write a message',
       style: {height: opts.shrink === false ? '200px' : ''}
-    })
+    }, opts.text)
 
     accessories = h('div.row.compose__controls',
       publishBtn,
