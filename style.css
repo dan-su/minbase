@@ -313,7 +313,7 @@ textarea:focus, {
   display: none;
 }
 
-.message .innercontent:last-child {
+.message .innercontent:nth-last-child(2) {
   display: block;
 }
 
