@@ -16,7 +16,6 @@ exports.gives = {
 
 exports.create = function (api) {
   exports.message_content_mini = function (msg, sbot) {
-    console.log(config.emojiUrl)
     var star = config.emojiUrl + 'star.png'
     var stars = config.emojiUrl + 'stars.png'
     if(msg.value.content.type !== 'vote') return
@@ -31,7 +30,6 @@ exports.create = function (api) {
 
   exports.message_action = function (msg, sbot) {
     var star = config.emojiUrl + 'star.png'
-    console.log(star)
     if(msg.value.content.type !== 'vote')
       return h('a.dig', {href: '#', onclick: function (e) {
         e.preventDefault()
