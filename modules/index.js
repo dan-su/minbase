@@ -13,6 +13,7 @@ module.exports = {
   "edit.js": require('./edit.js'),
   "names.js":  require('./names.js'),
   "post.js":  require('./post.js'),
+  "editmessage.js": require('./editmessage.js'),
   "private.js":  require('./private.js'),
   "public.js":  require('./public.js'),
   "relationships.js":  require('./relationships.js'),
