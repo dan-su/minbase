@@ -36,7 +36,14 @@ exports.create = function (api) {
       } else { return h('span.editor','')}
     }
 
-    var message = h('div', re(data), h('div.innercontent', h('span.edited', 'Unedited'), markdown(data.value.content.text)))
+    var message = 
+      h('div', 
+        re(data), 
+        h('div.innercontent', 
+          h('span.edited', 'Unedited'), 
+          markdown(data.value.content.text)
+        )
+      )
 
     pull(query({query: [{$filter: { value: { author: data.value.author, content: {type: 'edit', edited: data.key}}}}], limit: 100}),
       pull.collect(function (err, data){
@@ -46,10 +53,8 @@ exports.create = function (api) {
             edited = data[i]
             message.appendChild(
               h('div.innercontent',
-                h('span.edited',
-                  'Edited ',
-                  timestamp(edited)),
-                  markdown(edited.value.content.text)
+                h('span.edited', 'Edited ', timestamp(edited)),
+                markdown(edited.value.content.text)
               )
             )
           }
@@ -61,19 +66,7 @@ exports.create = function (api) {
     )
 
     return message
-
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
