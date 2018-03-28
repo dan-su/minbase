@@ -32,7 +32,12 @@ exports.create = function (api) {
 
     function getEditor (data) {
       if (data.value.author == id) {
-        return h('span.editor', api.message_compose(meta, {text: data.value.content.text}))
+        return h('div.editor',
+          h('a', {href: '#' + data.key}, 'Edit'),
+          h('span#' + data.key, 
+            api.message_compose(meta, {text: data.value.content.text})
+          )
+        )
       } else { return h('span.editor','')}
     }
 
