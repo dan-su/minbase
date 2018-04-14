@@ -7,12 +7,14 @@ var avatar = require('./avatar')
 
 exports.gives = 'avatar_profile'
 
+exports.needs = {avatar_action: 'first'}
+
 exports.create = function (api) {
   return function (id) {
 
     if (id == self_id.id) {
       var edit = h('p', h('a', {href: '#Edit'}, h('button.btn.btn-primary', 'Edit profile')))
-    } //else { var edit = api.avatar_action(id)} NEED TO REIMPLEMENT FOLLOW/UNFOLLOW IN REQUIRE
+    } else { var edit = api.avatar_action(id)} 
 
     var layout = h('div.column',
       h('div.message',
