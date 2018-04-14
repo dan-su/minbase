@@ -416,7 +416,8 @@ img.emoji {
   border-radius: 4px;
 }
 
-.avatar--tiny {
+.avatar--tiny img {
+  border: none;
   width: 26px;
   height: 26px;
   border-radius: 2px;

@@ -1,7 +1,7 @@
 module.exports = {
   "app.js":  require('./app.js'),
   "message-confirm.js":  require('./message-confirm.js'),
-  //"about.js":  require('./about.js'),
+  "about.js":  require('./about.js'),
   "avatar-edit.js":  require('./avatar-edit.js'),
   "avatar-profile.js":  require('./avatar-profile.js'),
   "compose.js":  require('./compose.js'),

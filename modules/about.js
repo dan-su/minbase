@@ -2,10 +2,7 @@ var h = require('hyperscript')
 var blobUrl = require('./helpers').bloburl
 var markdown = require('./helpers').markdown
 
-exports.needs = {
-  avatar_name: 'first',
-  avatar_link: 'first'
-}
+var config = require('../config')()
 
 exports.gives = { 
   message_content_mini: true
@@ -26,7 +23,8 @@ exports.create = function (api) {
         return h('span', 'identifies as ', about.name)
       }
       if (msg.value.content.image) {
-        return h('span', 'identifies as ', h('img.avatar--thumbnail', {src: blobUrl(about.image)}))
+        console.log(msg.value.content.image)
+        return h('span.avatar--tiny', 'identifies as ', h('img', {src: config.blobsUrl + about.image.link}))
       }
     } else { return }
   }
