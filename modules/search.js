@@ -12,8 +12,6 @@ exports.needs = {
 
 exports.gives = 'screen_view'
 
-var whitespace = /\s+/
-
 function andSearch(terms, inputs) {
   for(var i = 0; i < terms.length; i++) {
     var match = false
@@ -32,8 +30,8 @@ function searchFilter(terms) {
     return c && (
       msg.key == terms[0] ||
       andSearch(terms.map(function (term) {
-        return new RegExp(term, 'i')
-        // return new RegExp('\\b'+term+'\\b', 'i')
+        //return new RegExp(term, 'i')
+        return new RegExp('\\b'+term+'\\b', 'i')
       }), [c.text, c.name, c.title])
     )
   }
@@ -45,22 +43,24 @@ function createOrRegExp(ary) {
   }).join('|'), 'i')
 }
 
-/*function highlight(el, query) {
+function highlight(el, query) {
   var searcher = new TextNodeSearcher({container: el})
   searcher.query = query
   searcher.highlight()
   return el
-}*/
+}
 
 exports.create = function (api) {
 
   return function (path) {
     if((path[0] === '?') || (path[0] === '#')) {
+      console.log(path)
       if (path[0] === '?') { 
-      var query = path.substr(1).trim().split(whitespace)
-      } else { var query = path.split(whitespace)}
+      var query = path.substr(1).split('%20').join(' ').split(' ')
+      } else { var query = path.split('%20').join(' ').split(' ')}
       var _matches = searchFilter(query)
 
+      console.log(query)
       var total = 0, matches = 0
 
       var header = h('div.search_header', '')
