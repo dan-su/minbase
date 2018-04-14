@@ -15,6 +15,17 @@ exports.needs = {message_compose: 'first' }
 exports.create = function (api) {
   return function (data) {
     if(!data.value.content || !data.value.content.text) return
+
+    var root = data.value.content.root
+    var re = !root ? null : h('span', 're: ', messageLink(root))
+
+    return h('div',
+      re,
+      markdown(data.value.content)
+    )
+
+
+    /*if(!data.value.content || !data.value.content.text) return
     if(data.value.content.type === 'edit') return
 
     function re (data) {
@@ -68,7 +79,9 @@ exports.create = function (api) {
       })
     )
     return message
+    */
 
+ 
   }
 }
 
