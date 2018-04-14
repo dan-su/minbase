@@ -27,20 +27,20 @@ exports.create = function (api) {
       if(msg.value.content.blocking) relation = 'blocks'
       return [
         relation, ' ',
-        h('h', {href: '#' + msg.value.content.contact}, avatar.name(msg.value.content.contact))
+        h('a', {href: '#' + msg.value.content.contact}, avatar.name(msg.value.content.contact))
       ]
     }
   }
 
-  exports.message_content = function (msg) {
+  /*exports.message_content = function (msg) {
 
     var content = msg.value.content
     if(content.type == 'contact' && content.contact) {
       var relation = isRelated(content.following, 'follows')
       if(content.blocking) relation = 'blocks'
-      return h('div.contact', relation, api.avatar(msg.value.content.contact, 'thumbnail'))
+      return h('div.contact', relation, h('a', {href: msg.value.content.contact}, api.avatar(msg.value.content.contact, 'thumbnail')))
     }
-  }
+  }*/
 
   exports.avatar_action = function (id) {
     var follows_you, you_follow
