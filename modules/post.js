@@ -43,12 +43,10 @@ exports.create = function (api) {
 
     var message = 
       h('div', 
-        re(data), 
-        h('div.innercontent', 
-          h('span.edited', 'Unedited'), 
-          markdown(data.value.content.text)
-        )
+        re(data) 
       )
+    message.appendChild(h('div.innercontent', markdown(data.value.content.text)))
+
 
     pull(query({query: [{$filter: { value: { author: data.value.author, content: {type: 'edit', edited: data.key}}}}], limit: 100}),
       pull.collect(function (err, data){
@@ -69,8 +67,8 @@ exports.create = function (api) {
         }
       })
     )
-
     return message
+
   }
 }
 
