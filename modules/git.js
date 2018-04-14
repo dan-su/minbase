@@ -11,11 +11,12 @@ var messageLink = require('./helpers').message_link
 var markdown = require('./helpers').markdown
 var links = require('./scuttlebot').links
 var get = require('./scuttlebot').get
+var avatar = require('./avatar')
+
 
 exports.needs = {
   message_confirm: 'first',
-  message_compose: 'first',
-  avatar_name: 'first'
+  message_compose: 'first'
 }
 
 exports.gives = {
@@ -81,11 +82,11 @@ exports.create = function (api) {
   }
 
   function repoLink(id) {
-    return h('a', {href: '#'+id}, api.avatar_name(id))
+    return h('a', {href: '#'+id}, messageLink(id))
   }
 
   function repoName(id) {
-    return h('ins', api.avatar_name(id))
+    return h('ins', messageLink(id))
   }
 
   function getIssueState(id, cb) {
@@ -230,7 +231,7 @@ exports.create = function (api) {
             getForks(msg.key)
           ]), pull.map(function (fork) {
             return h('option', {value: fork.id},
-              repoLink(fork.id), ' by ', api.avatar_name(fork.author))
+              repoLink(fork.id), ' by ', avatar.name(fork.author))
           }))
         }),
         ':',
@@ -321,7 +322,7 @@ exports.create = function (api) {
             h('td', shortName,
               ref.conflict ? [
                 h('br'),
-                h('a', {href: '#'+author}, api.avatar_name(author))
+                h('a', {href: '#'+author}, avatar.name(author))
               ] : ''),
             h('td', h('code', ref.hash)),
             h('td', messageTimestampLink(ref.link))))
@@ -358,7 +359,7 @@ exports.create = function (api) {
                 h('a', {href: '#'+link.key}, title), h('br'),
                 h('small',
                   'opened ', messageTimestampLink(link),
-                  ' by ', h('a', {href: '#'+author}, api.avatar_name(author))))))
+                  ' by ', h('a', {href: '#'+author}, avatar.name(author))))))
           }, function (err) {
             if (err) console.error(err)
           })
@@ -370,7 +371,7 @@ exports.create = function (api) {
           pull.drain(function (fork) {
             forksT.append(h('tr', h('td',
               repoLink(fork.id),
-              ' by ', h('a', {href: '#'+fork.author}, api.avatar_name(fork.author)))))
+              ' by ', h('a', {href: '#'+fork.author}, avatar.name(fork.author)))))
           }, function (err) {
             if (err) console.error(err)
           })
