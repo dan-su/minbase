@@ -55,28 +55,27 @@ var messageName = exports.message_name
 var ref = require('ssb-ref')
 
 module.exports.message_link = function (id) {
-  // generates a link to a message that has been replied to
-  if('string' !== typeof id)
-    throw new Error('link must be to message id')
-
-  var link = h('a', {href: '#'+id}, id.substring(0, 10)+'...')
-
-  if(ref.isMsg(id))
+  if (ref.isMsg(id)) {
+    var link = h('a', {href: '#'+id}, id.substring(0, 10)+'...')
     messageName(id, function (err, name) {
       if(err) console.error(err)
       else link.textContent = name
     })
-
+  } else {
+    var link = id
+  }
   return link
 }
 
 var markdown = require('ssb-markdown')
 
-var config = require('../config')()
+var config = require('./../config')()
+
+console.log(config.emojiUrl)
 
 module.exports.markdown = function (content) {
  function renderEmoji(emoji) {
-    var url = config.emojiUrl + emoji
+    var url = config.emojiUrl + emoji + '.png'
     if (!url) return ':' + emoji + ':'
     return '<img src="' + encodeURI(url) + '"'
       + ' alt=":' + escape(emoji) + ':"'
