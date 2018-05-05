@@ -10,6 +10,7 @@ module.exports = function () {
       res.on('data', function (data, remote) {
         var config = data
         localStorage[host] = config
+        location.reload()
       })
     })
 
