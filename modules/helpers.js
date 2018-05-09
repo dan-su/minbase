@@ -83,8 +83,8 @@ module.exports.markdown = function (content) {
       + ' class="emoji">'
   }
  
-  if('string' === typeof content)
-      content = {text: content}
+  if (content)
+      //content = {text: content}
     //handle patchwork style mentions.
     var mentions = {}
 
