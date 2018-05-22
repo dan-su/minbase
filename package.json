@@ -10,7 +10,8 @@
   "dependencies": {
     "cont": "^1.0.3",
     "dataurl-": "^0.1.0",
-    "decent-ssb": "^4.4.1",
+    "decent-ssb": "^4.4.2",
+    "decent-ws": "^1.0.0",
     "depject": "^4.1.1",
     "emoji-named-characters": "^1.0.2",
     "explain-error": "^1.0.4",

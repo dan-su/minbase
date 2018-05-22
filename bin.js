@@ -31,7 +31,7 @@ if (argv[0] == 'server') {
     .use(require('ssb-ebt'))
     .use(require('scuttlebot/plugins/invite'))
     .use(require('scuttlebot/plugins/local'))
-    .use(require('decent-ssb/plugins/ws'))
+    .use(require('decent-ws'))
     .use({
       name: 'serve',
       version: '1.0.0',
