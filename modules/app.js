@@ -11,7 +11,7 @@ module.exports = {
 
   create: function (api) {
     return function () {
-      document.head.appendChild(h('style', require('../style.css.json')))
+      document.head.appendChild(h('style', require('../css/index.css.json')))
 
       function hash() {
         return window.location.hash.substring(1)
@@ -36,7 +36,7 @@ module.exports = {
         h('div.internal', 
           //h('li', h('a', {href: '#' + id}, api.avatar_image(id, 'tiny'))),
           h('li', h('a', {href: '#' + id}, avatar.name(id))),
-          h('li', h('a', {href: '#'}, 'Public')),
+          h('li', h('a', {href: '#'}, 'Pubz')),
           h('li', h('a', {href: '#Private'}, 'Private')),
           h('li', h('a', {href: '#Mentions'}, 'Mentions')),
           h('li', h('a', {href: '#Key'}, 'Key')),
