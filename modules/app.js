@@ -36,7 +36,7 @@ module.exports = {
         h('div.internal', 
           //h('li', h('a', {href: '#' + id}, api.avatar_image(id, 'tiny'))),
           h('li', h('a', {href: '#' + id}, avatar.name(id))),
-          h('li', h('a', {href: '#'}, 'Pubz')),
+          h('li', h('a', {href: '#'}, 'Public')),
           h('li', h('a', {href: '#Private'}, 'Private')),
           h('li', h('a', {href: '#Mentions'}, 'Mentions')),
           h('li', h('a', {href: '#Key'}, 'Key')),
