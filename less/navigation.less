@@ -1,5 +1,13 @@
-// Navigation code here
+a {
+  color: @nav-a-hover;
+  text-decoration: none;
+}
 
+a:hover,
+a:focus {
+  color: @nav-a-hover;
+  text-decoration: underline;
+}
 .navbar {
   width: 100%;
   position: fixed;
@@ -22,9 +30,24 @@
     color: #fff;
     text-decoration: none;
   }
+
   &:focus a:focus {
     color: #fff;
     text-decoration: none;
+  }
+
+  .internal {
+    max-width: 645px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  li {
+    margin-top: .3em;
+    float: left;
+    padding-right: .6em;
+    padding-left: .3em;
+    list-style-type: none;
   }
   
 }
