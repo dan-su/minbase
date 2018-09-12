@@ -159,6 +159,15 @@ p {
   width: 100%;
   margin: 0 auto;
 }
+a {
+  color: #0088cc;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: #0088cc;
+  text-decoration: underline;
+}
 .navbar {
   width: 100%;
   position: fixed;
@@ -184,6 +193,18 @@ p {
   color: #fff;
   text-decoration: none;
 }
+.navbar .internal {
+  max-width: 645px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.navbar li {
+  margin-top: 0.3em;
+  float: left;
+  padding-right: 0.6em;
+  padding-left: 0.3em;
+  list-style-type: none;
+}
 .home .gallery-container {
   display: flex;
   flex-direction: column;
@@ -192,28 +213,9 @@ p {
   display: flex;
   overflow: scroll;
   width: 100%;
-  height: 19.5rem;
+  height: 100%;
   border-bottom: 1px solid #F1F1F1;
   border-top: 1px solid #F1F1F1;
-}
-.screen .story {
-  margin: 1.2rem 2rem 1rem 2rem;
-}
-.screen .story .profile-pic {
-  height: 12.5rem;
-  width: 12.5rem;
-  border: 3px solid #F1F1F1;
-  border-radius: 100%;
-}
-.screen .story .username {
-  text-align: center;
-  margin-top: 1.2rem;
-}
-.post .post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 10rem;
 }
 .screen {
   width: 100%;
@@ -234,4 +236,25 @@ p {
   display: flex;
   flex-direction: column;
   min-height: 0px;
+}
+/* scrolling feeds, threads */
+.scroll-y {
+  overflow-y: auto;
+  min-height: 0px;
+}
+.scroll-x {
+  overflow-x: auto;
+  min-width: 0px;
+}
+.scroller {
+  width: 100%;
+  flex: 1;
+}
+.scroller__content {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.scroller__wrapper {
+  width: 100%;
 }
