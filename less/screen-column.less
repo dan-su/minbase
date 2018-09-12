@@ -1,0 +1,22 @@
+//Screen & screen column style
+
+.screen {
+    width: 100%;
+    position: absolute;
+    top: 2.7em; bottom: 0;
+    left: 0; right: 0;
+    overflow-y: hidden;
+    background: #f7f7f9;
+  }
+  
+  @media only screen and (max-width: 500px) {
+    .screen {
+      top: 4em;
+    }
+  }
+  
+  .column {
+    display: flex;
+    flex-direction: column;
+    min-height:0px;
+  }
