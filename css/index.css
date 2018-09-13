@@ -258,3 +258,90 @@ a:focus {
 .scroller__wrapper {
   width: 100%;
 }
+/* Messages */
+.message,
+.message > * {
+  animation: fadein 0.5s;
+}
+.message,
+.message-confirm {
+  display: block;
+  position: relative;
+  flex-basis: 0;
+  border: 1px solid #eee;
+  max-width: 100%;
+  padding: 0.5em;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  background: white;
+  border-radius: 4px;
+}
+.message_content {
+  margin-top: 5px;
+  padding-top: 3px;
+}
+.message_content > span,
+.message_content > div {
+  width: 100%;
+}
+.message_content--mini div > span {
+  display: inline-block;
+}
+.message_meta {
+  margin-left: auto;
+}
+.edited {
+  float: right;
+}
+.message .innercontent {
+  width: 100%;
+  display: none;
+}
+.message .innercontent:nth-last-child(2) {
+  display: block;
+}
+.message_meta > * {
+  margin-left: 0.5ex;
+}
+.message_actions {
+  margin-left: auto;
+  margin-top: auto;
+}
+.message img {
+  max-width: 98%;
+  border: 1px solid #ccc;
+  padding: 4px;
+}
+.message > .title > .avatar {
+  margin-left: 0;
+}
+.message_content {
+  padding: 0.5ex;
+}
+.actions > :not(:last-child) {
+  padding-right: 5px;
+}
+.emoji {
+  height: 14px;
+  width: 14px;
+  vertical-align: top;
+  border: none;
+  padding: 0;
+}
+img.emoji {
+  border: none;
+  padding: none;
+}
+/* lightbox - used in message-confirm */
+.lightbox {
+  margin-top: 5em;
+  margin-bottom: 3em;
+  width: 90%;
+  max-width: 600px;
+  z-index: 5;
+  margin-left: auto;
+  margin-right: auto;
+}
+.lightbox .message-confirm {
+  box-shadow: 0px 0px 1500px 1500px rgba(0, 0, 0, 0.1);
+}
